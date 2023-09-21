@@ -729,6 +729,39 @@ export const callBlurFor_Workingareafor2Y = (
   }
 }
 
+export const callBlurFor_WorkingareaZfor2 = (
+  event,
+  updatePallet,
+  G_WA_2_Height_Z_Dir,
+  // G_Pallet_Length,
+  set_WA_2_Height_Z_Dir,
+  setErrorWorkingaraeaHeightfor2,
+  setErrorHelperForWorkingareaHeightfor2,
+) =>
+{
+console.log(G_WA_2_Height_Z_Dir,"G_WA_2_Height_Z_Dir")
+
+  if (event.target.value > 1400) {
+    G_WA_2_Height_Z_Dir = 1400;
+
+    set_WA_2_Height_Z_Dir(1400)
+    setErrorWorkingaraeaHeightfor2(false)
+    setErrorHelperForWorkingareaHeightfor2(" ")
+
+  }
+  if (event.target.value < 10) {
+    G_WA_2_Height_Z_Dir = 10;
+
+
+    set_WA_2_Height_Z_Dir(10)
+    setErrorWorkingaraeaHeightfor2(false)
+    setErrorHelperForWorkingareaHeightfor2(" ")
+
+  }
+  for (let i = 1; i < 3; i++) {
+    updatePallet(i);
+  }
+}
 export const callBlurFor_WorkingareaoffsetXfor2 = (
   event,
   G_originPal2,

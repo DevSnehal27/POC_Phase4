@@ -108,6 +108,7 @@ import {
   ParentGridstyle, containerGriddStyle, ExpansionPanelDetailsStyle, containerMarginStyle, GridItemStyle, SimuTextflieStyle, GridTopStyle,
   SizeSimuStyle, RadioGroupStyle, containerGridstyle, DivPFMarginStyle,
 } from '../DashboardPage_UI/UICommonStyles';
+import { VisibilityRounded } from '@material-ui/icons';
 let arrayData = []
 const swap = SwiperCore.use([Pagination, Navigation, A11y, EffectCoverflow]);
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -123,11 +124,17 @@ const exceptThisSymbolsprc = ["e", "f", "g", "h", "i", "j", "k", "l", "m", "n", 
 var canvas_forSingle;
 var canvasEle;
 var canvasEle_GR;
+var canvasEle_OR;
+var canvasEle_RD;
 var canvasEleCase;
 var canvasEle_GRCaseFreez;
 var canvas_forPRC;
 var canvas_forPRCOuterRect;
+var canvas_For_PatternWizard;
 var canvas_For_LayerCreator;
+var canvas_For_PDCanvas;
+var canvas_For_PDPatilCanvas;
+var canvas_For_PDPatilpriyaCanvas;
 
 var varientsList = [];
 var poss_Origin = [];
@@ -138,6 +145,7 @@ var progressNum;
 var color1 = "#f5f5f5";
 var color2 = "#E8E7DE";
 var imgForCase;
+const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad', 'priyuuuuuuuu'];
 
 class PaletteDesignerPage extends Component {
   constructor(props) {
@@ -153,10 +161,13 @@ class PaletteDesignerPage extends Component {
       initialCaseX: 0,
       initialCaseY: 0,
       countOfIntermediateLayer: 0,
+      priya: "",
+      priyadarshini: "",
       downloadablePDF: true,
       pallet_bool: true,
       isExpanded: false,
       rangeValue: 6,
+      completed: {},
       pallet_12: false,
       selected_SchemaA: "",
       dropdownUpdate: false,
@@ -196,6 +207,8 @@ class PaletteDesignerPage extends Component {
 
       errorWorkingaraeaLengthfor2: false,
       errorHelperForWorkingareaLengthfor2: "",
+      errorWorkingaraeaHeightfor2: false,
+      errorHelperForWorkingareaHeightfor2: "",
       simulationToast: false,
       LayerCreatorToast: false,
 
@@ -320,6 +333,9 @@ class PaletteDesignerPage extends Component {
       enableHeaderB: false,
       enableHeaderC: false,
       canvasGreenRect: "hidden",
+      canvasOrangeRect: "hidden",
+      canvasRedRect: "hidden",
+      canvas_PatternWizard: "hidden",
       canvas_LayerCreator: "hidden",
       canvasfreezGreenRect: "hidden",
       setVariantName_SchemaA: '',
@@ -410,8 +426,12 @@ class PaletteDesignerPage extends Component {
       abortButton: false,
       caseDimensionToggle: false,
       LabelDescriptionToggle: false,
-      scale: 1
+      scale: 1,
+      forPDCanvas: "hidden",
+      forPDPatilCanvas: "hidden",
+      forPDPatilpriyaCanvas: "hidden",
     };
+    this.canvasRefs = [];
     this.touchStartDistance = 0;
     this.sliderRef = React.createRef();
     this.threeDobjBlobs = []
@@ -471,6 +491,7 @@ class PaletteDesignerPage extends Component {
     this.WA_1_Offset_Y_Dir = 0;
     this.WA_2_width_X_Dir = 0;
     this.WA_2_Length_Y_Dir = 0;
+    this.WA_2_Height_Z_Dir = 0;
     this.WA_2_Offset_X_Dir = 0;
     this.WA_2_Offset_Y_Dir = 0;
 
@@ -679,6 +700,7 @@ class PaletteDesignerPage extends Component {
     this.handleChangepanel = this.handleChangepanel.bind(this);
     this.callSchemafor1 = this.callSchemafor1.bind(this);
     this.callSchemafor2 = this.callSchemafor2.bind(this);
+     this.handlenumoncase = this.handlenumoncase.bind(this);
     this.handlecolorA = this.handlecolorA.bind(this);
     this.handlecolorB = this.handlecolorB.bind(this);
     this.handlecolorC = this.handlecolorC.bind(this);
@@ -713,6 +735,8 @@ class PaletteDesignerPage extends Component {
 
     this.handleSelectedYneg = this.handleSelectedYneg.bind(this);
     this.drawGreenRect = this.drawGreenRect.bind(this);
+    this.drawOrangeRect = this.drawOrangeRect.bind(this);
+    this.drawRedRect = this.drawRedRect.bind(this);
     this.drawFillRect1 = this.drawFillRect1.bind(this);
     this.getSortOrder = this.getSortOrder.bind(this);
     this.handlecolor1 = this.handlecolor1.bind(this);
@@ -938,18 +962,28 @@ class PaletteDesignerPage extends Component {
     this.ctx_forSingle;
     this.ctx_forPRC;
     this.ctx_forPRCOuterRect;
+    this.ctx_PatternWizard;
     this.ctx_LayerCreator;
+    this.ctx_PDCanvas;
+    this.ctx_PDPatilCanvas;
+    this.ctx_PDPatilpriyaCanvas;
 
     this.myRef_forPRC = React.createRef();
     this.myRef_forPRCOuterRect = React.createRef();
+    this.myRef_for_PatternWizard = React.createRef();
     this.myRef_for_LayerCreator = React.createRef();
     this.myRef_forSingleCanvas = React.createRef();
+    this.myRef_forPDCanvas = React.createRef();
+    this.myRef_forPDPatilCanvas = React.createRef();
+    this.myRef_forPDPatilpriyaCanvas = React.createRef();
     this.myRef = React.createRef();
     this.myRef_GR = React.createRef();
     this.selectedPieceIndex = null;
     this.dragging = false;
     this.dragStartX = 0;
     this.dragStartY = 0;
+     this.myRef_OR = React.createRef();
+    this.myRef_RD = React.createRef();
     this.myRefCase = React.createRef();
     this.myRef_GRCaseFreez = React.createRef();
     this.swiperRef = React.createRef();
@@ -1195,6 +1229,33 @@ class PaletteDesignerPage extends Component {
     })
   }
 
+  //Height 2
+  set_WA_2_Height_Z_Dir = (WA_2_Height_Z_Dir) => {
+    console.log(WA_2_Height_Z_Dir, "WA_2_Length_Y_Dir line 963")
+
+    this.WA_2_Height_Z_Dir = WA_2_Height_Z_Dir;
+    this.state.WA_2_Height_Z_Dir = WA_2_Height_Z_Dir;
+    this.setState({
+      WA_2_Height_Z_Dir: WA_2_Height_Z_Dir,
+    })
+  }
+
+  setErrorWorkingaraeaHeightfor2 = (errorWorkingaraeaHeightfor2) => {
+    console.log(errorWorkingaraeaHeightfor2)
+
+    this.state.errorWorkingaraeaHeightfor2 = errorWorkingaraeaHeightfor2;
+    this.setState({
+      errorWorkingaraeaHeightfor2: errorWorkingaraeaHeightfor2,
+    })
+  }
+
+  setErrorHelperForWorkingareaHeightfor2 = (errorHelperForWorkingareaHeightfor2VALUE) => {
+    console.log(errorHelperForWorkingareaHeightfor2VALUE)
+    this.state.errorHelperForWorkingareaHeightfor2 = errorHelperForWorkingareaHeightfor2VALUE;
+    this.setState({
+      errorHelperForWorkingareaHeightfor2: errorHelperForWorkingareaHeightfor2VALUE,
+    })
+  }
   //offsetpallete2 x
 
   set_WA_2_Offset_X_Dir = (WA_2_Offset_X_Dir) => {
@@ -1693,12 +1754,30 @@ class PaletteDesignerPage extends Component {
   }
 
   arrowOfXY_LayerCreator = () => {
-    this.ctx_LayerCreator.beginPath();
-    this.ctx_LayerCreator.lineWidth = 2;
-    this.ctx_LayerCreator.drawImage(this.imga, 12, 293, 80, 80);
-    this.ctx_LayerCreator.fill();
-    this.ctx_LayerCreator.stroke();
+    this.ctx_PatternWizard.beginPath();
+    this.ctx_PatternWizard.lineWidth = 2;
+    this.ctx_PatternWizard.drawImage(this.imga, 12, 253, 80, 80);
+    this.ctx_PatternWizard.fill();
+    this.ctx_PatternWizard.stroke();
   }
+
+
+  totalSteps = () => {
+    return steps.length;
+  };
+
+  completedSteps = () => {
+    return Object.keys(this.state.completed).length;
+  };
+
+  isLastStep = () => {
+    return this.state.activeStep === this.totalSteps() - 1;
+  };
+
+  allStepsCompleted = () => {
+    return this.completedSteps() === this.totalSteps();
+  };
+
 
   zoomInPallet_LayerCreator = (event, zoomingOperation, newpinchZoomValue) => {
 
@@ -3133,6 +3212,96 @@ class PaletteDesignerPage extends Component {
     this.ctx_forSingle.fill();
     this.ctx_forSingle.stroke();
   }
+  handlenumoncase=()=>
+  {
+    
+    if ((this.state.panelname == "panel5")) {      
+      if (this.firstcase_pal1 == "Upper Left Corner"){
+        // const newPosArray = [...this.state.CasesXYfotGreenRectPRC].sort((a, b) => (a.y - b.y))      
+        const newPosArray = [...this.state.CasesXYfotGreenRectPRC].sort((a, b) => {
+          if (a.y == b.y) {
+            return a.x - b.x;
+          } else {
+            return a.y - b.y;
+          }
+        });
+        this.state.CasesXYmanualPRC=[...newPosArray];
+        console.log("XY For green rect In Upper Left Corner::: i=", "Case XY for ", this.state.CasesXYfotGreenRectPRC, "New Array", newPosArray.length);
+
+        for (let i = 0; i <= newPosArray.length; i++) {
+          console.log("Hello")
+          if (newPosArray[i] != undefined) {
+            let xP = newPosArray[i].x;
+            let yP = newPosArray[i].y;
+            let wP = newPosArray[i].w;
+            let hP = newPosArray[i].h;
+            let CaseInfo = { x: xP, y: yP, w: wP, h: hP };
+            console.log("CaseInfo inside Upper Right corner::", CaseInfo);
+            this.drawFillRect(CaseInfo, { backgroundColor: "#eab676" });
+          }
+        }
+     }else if (this.firstcase_pal1 == "Upper Right Corner") {
+      const newPosArray = [...this.state.CasesXYfotGreenRectPRC].sort((a, b) => {
+        if (a.y == b.y) {
+          return b.x - a.x;
+        } else {
+          return a.y - b.y;
+        }
+      });
+      this.state.CasesXYmanualPRC=[...newPosArray];
+      for (let i = 0; i <= newPosArray.length; i++) {
+        if (newPosArray[i] != undefined) {
+          let xP = newPosArray[i].x;
+          let yP = newPosArray[i].y;
+          let wP = newPosArray[i].w;
+          let hP = newPosArray[i].h;
+          let CaseInfo = { x: xP, y: yP, w: wP, h: hP };
+          console.log("CaseInfo inside Upper Right corner::", CaseInfo);
+          this.drawFillRect(CaseInfo, { backgroundColor: "#eab676" });
+        }
+      }
+    }else if (this.firstcase_pal1 == "Lower Right Corner") {
+      const newPosArray = [...this.state.CasesXYfotGreenRectPRC].sort((a, b) => {
+        if (a.y == b.y) {
+          return b.x - a.x;
+        } else {
+          return b.y - a.y;
+        }
+      });
+      this.state.CasesXYmanualPRC=[...newPosArray];
+     for (let i = 0; i <= newPosArray.length; i++) {
+           if (newPosArray[i] != undefined) {
+          let xP = newPosArray[i].x;
+          let yP = newPosArray[i].y;
+          let wP = newPosArray[i].w;
+          let hP = newPosArray[i].h;
+          let CaseInfo = { x: xP, y: yP, w: wP, h: hP };
+         this.drawFillRect(CaseInfo, { backgroundColor: "#eab676" });
+        }
+      }
+    }else if (this.firstcase_pal1 == "Lower Left Corner") {
+      const newPosArray = [...this.state.CasesXYfotGreenRectPRC].sort((a, b) => {
+        if (a.y == b.y) {
+          return a.x - b.x;
+        } else {
+          return b.y - a.y;
+        }
+      });
+      this.state.CasesXYmanualPRC=[...newPosArray];
+     for (let i = 0; i <= newPosArray.length; i++) {
+       if (newPosArray[i] != undefined) {
+          let xP = newPosArray[i].x;
+          let yP = newPosArray[i].y;
+          let wP = newPosArray[i].w;
+          let hP = newPosArray[i].h;
+          let CaseInfo = { x: xP, y: yP, w: wP, h: hP };
+          console.log("CaseInfo inside Upper Right corner::", CaseInfo);
+          this.drawFillRect(CaseInfo, { backgroundColor: "#eab676" });
+        }
+      }
+    }
+    }
+  }
   handlecolorA = (onloadApp) => {
 
     // if (this.state.panelname === 'panel5') {
@@ -3256,6 +3425,7 @@ class PaletteDesignerPage extends Component {
       }
 
     }
+    this.handlenumoncase();
   }
 
   handlecolorB = () => {
@@ -3375,6 +3545,11 @@ class PaletteDesignerPage extends Component {
 
       }
     }
+    this.setState({
+      canvasOrangeRect: "hidden",
+      canvasRedRect : "hidden"
+    })
+    this.handlenumoncase();
 
   }
 
@@ -3494,7 +3669,11 @@ class PaletteDesignerPage extends Component {
         this.clearingSchemaFields1("Schema-C");
       }
     }
-
+    this.setState({
+      canvasOrangeRect: "hidden",
+      canvasRedRect : "hidden"
+    })
+       this.handlenumoncase();
 
   }
 
@@ -3578,11 +3757,15 @@ class PaletteDesignerPage extends Component {
       "working_area_1_Offset_Y_Direction": this.state.WA_1_Offset_Y_Dir,
       "working_area_2_Width_X_Direction": this.state.WA_2_width_X_Dir,
       "working_area_2_Length_Y_Direction": this.state.WA_2_Length_Y_Dir,
+      "working_area_2_Height_Z_Direction": this.state.WA_2_Height_Z_Dir,
+
       "working_area_2_Offset_X_Direction": this.state.WA_2_Offset_X_Dir,
       "working_area_2_Offset_Y_Direction": this.state.WA_2_Offset_Y_Dir,
 
       "palletType": this.state.pallete_Type,
       "intermediateLayerType": this.state.intermediate_Layer_Type,
+      "intermediateLayerWidth": this.state.intermediate_Layer_Width,
+      "intermediateLayerLength": this.state.intermediate_Layer_Length,
       // "intermediateLayerType": 1,
       "caseType": this.state.case_Type,
       "noOfLayers": this.state.no_Of_Layers,
@@ -4465,6 +4648,8 @@ class PaletteDesignerPage extends Component {
         this.frameForPRC = true;
         // console.log("check me: " + this.state.pallet_12);
         this.drawGreenRect();
+        this.drawOrangeRect();
+        this.drawRedRect();
         this.state.pallet_12 = false,
           this.setState({
             pallet_12: false
@@ -4481,17 +4666,19 @@ class PaletteDesignerPage extends Component {
       this.callSchemafor1_forPRC();
 
       // Bottom arrow
-      if (this.state.panelname !== 'panel4') {
-        this.ctx_forPRC.beginPath();
-        this.ctx_forPRC.lineWidth = 2;
-        this.ctx_forPRC.drawImage(this.imga, 10, 280, 80, 80);
-        this.ctx_forPRC.fill();
-        this.ctx_forPRC.stroke();
-      }
+      // if (this.state.panelname !== 'panel3') {
+      //   this.ctx_forPRC.beginPath();
+      //   this.ctx_forPRC.lineWidth = 2;
+      //   this.ctx_forPRC.drawImage(this.imga, 10, 280, 80, 80);
+      //   this.ctx_forPRC.fill();
+      //   this.ctx_forPRC.stroke();
+      // }
 
       // if(this.state.panelname === 'panel5'){
       this.setState({
         canvasGreenRect: "visible",
+        canvasOrangeRect: "visible",
+        canvasRedRect: "visible",
         canvasfreezGreenRect: "visible",
         enableCanvasPRC: "visible",
       })
@@ -4528,6 +4715,8 @@ class PaletteDesignerPage extends Component {
         enableHeaderB: false,
         enableHeaderC: false,
         canvasGreenRect: "hidden",
+        canvasOrangeRect: "hidden",
+        canvasRedRect: "hidden",
         canvasfreezGreenRect: "hidden",
         canvasPRC: "hidden",
         enableCanvasPRC: "hidden",
@@ -4572,48 +4761,49 @@ class PaletteDesignerPage extends Component {
     if (this.state.panelname === 'panel4') {
       console.log("circle for panel4 1")
       this.arrow();
-      this.ctx_forPRC.clearRect(0, 0, canvas_forPRC.width, canvas_forPRC.height);
+      this.ctx_LayerCreator.clearRect(0, 0, canvas_For_LayerCreator.width, canvas_For_LayerCreator.height);
       if (this.state.selectedOne) {
         console.log("circle for panel4 2")
 
         // // upper right corner
-        this.ctx_forPRC.beginPath();
-        this.ctx_forPRC.lineWidth = 2;
-        this.ctx_forPRC.fillStyle = "black";
-        this.ctx_forPRC.fillStyle = "#E1D5E7";
-        this.ctx_forPRC.drawImage(this.imga, this.state.arrowx, this.state.arrowy, 80, 80);
-        this.ctx_forPRC.fill();
-        this.ctx_forPRC.stroke();
+        this.ctx_LayerCreator.beginPath();
+        this.ctx_LayerCreator.lineWidth = 2;
+        this.ctx_LayerCreator.fillStyle = "black";
+        this.ctx_LayerCreator.fillStyle = "#E1D5E7";
+        this.ctx_LayerCreator.drawImage(this.imga, this.state.arrowx, this.state.arrowy, 80, 80);
+        console.log("Inside panel4 circle arrowx " + this.state.arrowx + "this.state.arrowy " + this.state.arrowy)
+        this.ctx_LayerCreator.fill();
+        this.ctx_LayerCreator.stroke();
 
         //upper right corner
-        this.ctx_forPRC.beginPath();
-        this.ctx_forPRC.fillStyle = "black";
-        this.ctx_forPRC.fillStyle = "#E1D5E7";
-        this.ctx_forPRC.arc(this.state.arcX, this.state.arcY, 20, 0, 2 * Math.PI);
-        this.ctx_forPRC.fill();
-        this.ctx_forPRC.stroke();
+        this.ctx_LayerCreator.beginPath();
+        this.ctx_LayerCreator.fillStyle = "black";
+        this.ctx_LayerCreator.fillStyle = "#E1D5E7";
+        this.ctx_LayerCreator.arc(this.state.arcX, this.state.arcY, 20, 0, 2 * Math.PI);
+        this.ctx_LayerCreator.fill();
+        this.ctx_LayerCreator.stroke();
       }
       else if (this.state.selectedTwo) {
         // this.ctx_forPRC.clearRect(0, 0, canvas_forSingle.width, canvas_forSingle.height);
         // this.ctx_forPRC.clearRect(0, 0, myRef_forSingleCanvas.width, myRef_forSingleCanvas.height);
-        this.ctx_forPRC.clearRect(0, 0, canvas_forPRC.width, canvas_forPRC.height);
+        this.ctx_LayerCreator.clearRect(0, 0, canvas_For_LayerCreator.width, canvas_For_LayerCreator.height);
 
         // // upper right corner
-        this.ctx_forPRC.beginPath();
-        this.ctx_forPRC.lineWidth = 2;
-        this.ctx_forPRC.fillStyle = "black";
-        this.ctx_forPRC.fillStyle = "#E1D5E7";
-        this.ctx_forPRC.drawImage(this.imga, this.state.arrowx2, this.state.arrowy2, 80, 80);
-        this.ctx_forPRC.fill();
-        this.ctx_forPRC.stroke();
+        this.ctx_LayerCreator.beginPath();
+        this.ctx_LayerCreator.lineWidth = 2;
+        this.ctx_LayerCreator.fillStyle = "black";
+        this.ctx_LayerCreator.fillStyle = "#E1D5E7";
+        this.ctx_LayerCreator.drawImage(this.imga, this.state.arrowx2, this.state.arrowy2, 80, 80);
+        this.ctx_LayerCreator.fill();
+        this.ctx_LayerCreator.stroke();
 
 
-        this.ctx_forPRC.beginPath();
-        this.ctx_forPRC.fillStyle = "black";
-        this.ctx_forPRC.fillStyle = "#E1D5E7";
-        this.ctx_forPRC.arc(this.state.arcX2, this.state.arcY2, 20, 0, 2 * Math.PI);
-        this.ctx_forPRC.fill();
-        this.ctx_forPRC.stroke();
+        this.ctx_LayerCreator.beginPath();
+        this.ctx_LayerCreator.fillStyle = "black";
+        this.ctx_LayerCreator.fillStyle = "#E1D5E7";
+        this.ctx_LayerCreator.arc(this.state.arcX2, this.state.arcY2, 20, 0, 2 * Math.PI);
+        this.ctx_LayerCreator.fill();
+        this.ctx_LayerCreator.stroke();
       }
 
       // this.arrowOfXY_LayerCreator();
@@ -4621,7 +4811,8 @@ class PaletteDesignerPage extends Component {
       this.setState({
         canvas_LayerCreator: "visible"
       })
-    } else {
+    }
+    else {
       this.state.canvas_LayerCreator = "hidden";
       this.setState({
         canvas_LayerCreator: "hidden"
@@ -4629,6 +4820,44 @@ class PaletteDesignerPage extends Component {
     }
 
 
+    if (this.state.panelname === 'panel3') {
+      this.arrowOfXY_LayerCreator();
+      this.state.canvas_PatternWizard = "visible";
+      this.setState({
+        canvas_PatternWizard: "visible"
+      })
+    } else {
+      this.state.canvas_PatternWizard = "hidden";
+      this.setState({
+        canvas_PatternWizard: "hidden"
+      })
+    }
+
+    
+    if (this.state.panelname == "panel3") {
+      console.log("display me canvas ");
+      this.Vertical_flip();
+      this.Horizontally_flip();
+      this.state.forPDCanvas = "visible";
+      this.state.forPDPatilCanvas = "visible";
+      this.state.forPDPatilpriyaCanvas = "visible";
+      this.setState({
+        forPDCanvas: "visible",
+        forPDPatilCanvas: "visible",
+        forPDPatilpriyaCanvas: "visible",
+      })
+
+    }
+    else {
+      this.state.forPDCanvas = "hidden";
+      this.state.forPDPatilCanvas = "hidden"
+      this.state.forPDPatilpriyaCanvas = "hidden";
+      this.setState({
+        forPDCanvas: "hidden",
+        forPDPatilCanvas: "hidden",
+        forPDPatilpriyaCanvas: "hidden",
+      })
+    }
     if (this.state.panelname == "panel4" || this.state.panelname == "panel5") {
       if (this.state.setVariantName_SchemaA == "" && this.state.colorA == '#5eb8b3') {
         if (this.state.setVariantName_SchemaB != "") {
@@ -4827,6 +5056,11 @@ class PaletteDesignerPage extends Component {
 
     }
     this.zoomOutPallet_LayerCreator();
+
+    this.setState({
+      canvasOrangeRect: "hidden",
+      canvasRedRect : "hidden"
+    })
   };
 
   reOrderingSwiperIndex = () => {
@@ -4998,14 +5232,45 @@ class PaletteDesignerPage extends Component {
     canvas_forPRCOuterRect.width = canvas_forPRCOuterRect.clientWidth;
     canvas_forPRCOuterRect.height = canvas_forPRCOuterRect.clientHeight;
 
+    canvas_For_PatternWizard = this.myRef_for_PatternWizard.current;
+    canvas_For_PatternWizard.width = canvas_For_PatternWizard.clientWidth;
+    canvas_For_PatternWizard.height = canvas_For_PatternWizard.clientHeight;
+
+
     canvas_For_LayerCreator = this.myRef_for_LayerCreator.current;
     canvas_For_LayerCreator.width = canvas_For_LayerCreator.clientWidth;
     canvas_For_LayerCreator.height = canvas_For_LayerCreator.clientHeight;
+
+    canvas_For_PDCanvas = this.myRef_forPDCanvas.current;
+    canvas_For_PDCanvas.width = canvas_For_PDCanvas.clientWidth;
+    canvas_For_PDCanvas.height = canvas_For_PDCanvas.clientHeight;
+
+
+    canvas_For_PDPatilCanvas = this.myRef_forPDPatilCanvas.current;
+    canvas_For_PDPatilCanvas.width = canvas_For_PDPatilCanvas.clientWidth;
+    canvas_For_PDPatilCanvas.height = canvas_For_PDPatilCanvas.clientHeight;
+
+    canvas_For_PDPatilpriyaCanvas = this.myRef_forPDPatilpriyaCanvas.current;
+    canvas_For_PDPatilpriyaCanvas.width = canvas_For_PDPatilpriyaCanvas.clientWidth;
+    canvas_For_PDPatilpriyaCanvas.height = canvas_For_PDPatilpriyaCanvas.clientHeight;
 
 
     canvasEle_GR = this.myRef_GR.current;
     canvasEle_GR.width = canvasEle_GR.clientWidth;
     canvasEle_GR.height = canvasEle_GR.clientHeight;
+
+    //Orange
+    canvasEle_OR = this.myRef_OR.current;
+    canvasEle_OR.width = canvasEle_OR.clientWidth;
+    canvasEle_OR.height = canvasEle_OR.clientHeight;
+
+    //Red
+    canvasEle_RD = this.myRef_RD.current;
+    canvasEle_RD.width = canvasEle_RD.clientWidth;
+    canvasEle_RD.height = canvasEle_RD.clientHeight;
+
+
+
     // get context of the canvas
 
     canvasEleCase = this.myRefCase.current;
@@ -5021,11 +5286,17 @@ class PaletteDesignerPage extends Component {
 
     this.ctx_forPRC = canvas_forPRC.getContext("2d");
     this.ctx_forPRCOuterRect = canvas_forPRCOuterRect.getContext("2d");
+    this.ctx_PatternWizard = canvas_For_PatternWizard.getContext("2d");
     this.ctx_LayerCreator = canvas_For_LayerCreator.getContext("2d");
+    this.ctx_PDCanvas = canvas_For_PDCanvas.getContext("2d");
+    this.ctx_PDPatilCanvas = canvas_For_PDPatilCanvas.getContext("2d");
+    this.ctx_PDPatilpriyaCanvas = canvas_For_PDPatilpriyaCanvas.getContext("2d");
     this.ctx_forSingle = canvas_forSingle.getContext("2d");
     this.ctx = canvasEle.getContext("2d");
     this.ctxCase = canvasEleCase.getContext("2d");
     this.ctx_greenRect = canvasEle_GR.getContext("2d");
+    this.ctx_orangeRect = canvasEle_OR.getContext("2d");
+    this.ctx_redRect = canvasEle_RD.getContext("2d");
     this.ctx_GRCaseFreez = canvasEle_GRCaseFreez.getContext("2d");
     this.drawPallet_1_2();
     this.state.selectedOne = true;
@@ -5161,6 +5432,53 @@ class PaletteDesignerPage extends Component {
 
   }
 
+ drawOrangeRect = (x, y, w, h) => {
+
+    this.ctx_orangeRect.clearRect(0, 0, this.myRef_OR.current.clientWidth, this.myRef_OR.current.clientHeight);
+
+    let orangeRectInfo = { x: x, y: y, w: w, h: h };
+    this.drawFillRect2(orangeRectInfo)
+
+    this.setState({
+      canvasOrangeRect: "visible",
+      canvasfreezGreenRect: "visible"
+    })
+  }
+
+  drawFillRect2 = (info, style = {}) => {
+
+    const { x, y, w, h } = info;
+    const { backgroundColor = '#FFD700' } = style;
+
+    this.ctx_orangeRect.beginPath();
+    this.ctx_orangeRect.fillStyle = backgroundColor;
+    this.ctx_orangeRect.globalAlpha = 0.75;
+    this.ctx_orangeRect.fillRect(x, y, w, h);
+  }
+
+  drawRedRect = (x, y, w, h) => {
+
+    this.ctx_redRect.clearRect(0, 0, this.myRef_RD.current.clientWidth, this.myRef_RD.current.clientHeight);
+
+    let redRectInfo = { x: x, y: y, w: w, h: h };
+    this.drawFillRect3(redRectInfo)
+
+    this.setState({
+      canvasRedRect: "visible",
+      canvasfreezGreenRect: "visible"
+    })
+  }
+
+  drawFillRect3 = (info, style = {}) => {
+
+    const { x, y, w, h } = info;
+    const { backgroundColor = '#FF0000' } = style;
+
+    this.ctx_redRect.beginPath();
+    this.ctx_redRect.fillStyle = backgroundColor;
+    this.ctx_redRect.globalAlpha = 0.75;
+    this.ctx_redRect.fillRect(x, y, w, h);
+  }
 
   handleSelected = (event) => {
     this.setState({
@@ -5719,6 +6037,7 @@ class PaletteDesignerPage extends Component {
 
     // this.createVariants(variant, noOfSchemaCases);
     // console.log("variant  updated list " + variant + "noOfSchemaCases " + noOfSchemaCases);
+    console.log("Variant::",variant,"noofSchemaCases::",noOfSchemaCases);
     this.createVariantsForPRC(variant, noOfSchemaCases, isSim, simulationSchema)
 
     this.setState({
@@ -7273,6 +7592,98 @@ class PaletteDesignerPage extends Component {
 
   }
 
+
+  rotate_180_degrees = (index) => {
+
+    this.ctx_PDPatilpriyaCanvas.clearRect(0, 0, canvas_For_PDPatilpriyaCanvas.width, canvas_For_PDPatilpriyaCanvas.height);
+
+    const selectedImages = this.imageSrc_array.filter((_, i) => i === index);
+
+    var my_gradient2 = this.ctx_forSingle.createLinearGradient(0, 0, 0, 170);
+
+    selectedImages.forEach(imageSrc => {
+      const image = new Image();
+      image.src = imageSrc;
+
+      image.onload = () => {
+        this.ctx_PDPatilpriyaCanvas.beginPath();
+        this.ctx_PDPatilpriyaCanvas.lineWidth = 4;
+        my_gradient2.addColorStop(1, "white");
+        this.ctx_PDPatilpriyaCanvas.fillStyle = my_gradient2;
+        this.ctx_PDPatilpriyaCanvas.strokeStyle = "black";
+        this.ctx_PDPatilpriyaCanvas.strokeRect(640, 15, 100,100);
+        this.ctx_PDPatilpriyaCanvas.fillRect(640, 15, 100,100);
+        this.ctx_PDPatilpriyaCanvas.drawImage(image, 640, 15, 100,100);
+        this.ctx_PDPatilpriyaCanvas.stroke();
+      };
+    });
+
+  }
+
+
+
+  Horizontally_flip = (index) => {
+
+    this.ctx_PDPatilCanvas.clearRect(0, 0, canvas_For_PDPatilCanvas.width, canvas_For_PDPatilCanvas.height);
+
+    const selectedImages = this.imageSrc_array.filter((_, i) => i === index);
+
+    var my_gradient2 = this.ctx_forSingle.createLinearGradient(0, 0, 0, 170);
+
+    selectedImages.forEach(imageSrc => {
+      const image = new Image();
+      image.src = imageSrc;
+
+      image.onload = () => {
+        this.ctx_PDPatilCanvas.beginPath();
+        this.ctx_PDPatilCanvas.lineWidth = 4;
+        my_gradient2.addColorStop(1, "white");
+        this.ctx_PDPatilCanvas.fillStyle = my_gradient2;
+        this.ctx_PDPatilCanvas.strokeStyle = "black";
+        this.ctx_PDPatilCanvas.strokeRect(640, 130, 100,100);
+        this.ctx_PDPatilCanvas.fillRect(640, 130, 100,100);
+        this.ctx_PDPatilCanvas.drawImage(image, 640, 130, 100,100);
+        this.ctx_PDPatilCanvas.stroke();
+      };
+    });
+
+  }
+
+
+
+
+
+  Vertical_flip = (index) => {
+
+    this.ctx_PDCanvas.clearRect(0, 0, canvas_For_PDCanvas.width, canvas_For_PDCanvas.height);
+
+    const selectedImages = this.imageSrc_array.filter((_, i) => i === index);
+
+    var my_gradient2 = this.ctx_forSingle.createLinearGradient(0, 0, 0, 170);
+
+    selectedImages.forEach(imageSrc => {
+      const image = new Image();
+      image.src = imageSrc;
+
+      image.onload = () => {
+        this.ctx_PDCanvas.beginPath();
+        this.ctx_PDCanvas.lineWidth = 4;
+        my_gradient2.addColorStop(1, "white");
+        this.ctx_PDCanvas.fillStyle = my_gradient2;
+        this.ctx_PDCanvas.strokeStyle = "black";
+        this.ctx_PDCanvas.strokeRect(640, 250, 100,100);
+        this.ctx_PDCanvas.fillRect(640, 250, 100,100);
+        this.ctx_PDCanvas.drawImage(image, 640, 250, 100,100);
+        this.ctx_PDCanvas.stroke();
+      };
+    });
+
+  }
+
+  
+
+  
+
   disableAlgoPW = (bol, progress) => {
 
     // console.log("disableAlgoPW ", bol)
@@ -7663,12 +8074,21 @@ class PaletteDesignerPage extends Component {
       }
 
       else if (this.HWeighted && this.VWeighted && (this.Case_Length > 200 && this.Case_Length <= 425)) {
+        console.log("Inside possible frames = 2");
         // Frame_List = ["Frame_6", "Frame_20", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_25", "Frame_26", "Frame_27", "Frame_28", "Frame_29", "Frame_30", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_35", "Frame_37"];
         // Frame_List = ["Frame_6", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_35", "Frame_37"];
 
-        //Todays 16/7/2023
-        Frame_List = ["Frame_1", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_35", "Frame_37"];
-        console.log("Inside possible frames = 2");
+        if (this.state.pallete_Type == "EU 6: 800 x 600") {
+          Frame_List = ["Frame_1", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26",
+            // "Frame_31", "Frame_32",
+            //  "Frame_33", "Frame_34", 
+            "Frame_35", "Frame_37"];
+        } else {
+          //Todays 16/7/2023
+          Frame_List = ["Frame_1", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_31", "Frame_32",
+            //  "Frame_33", "Frame_34", 
+            "Frame_35", "Frame_37"];
+        }
       }
 
       else if (this.HWeighted && !this.VWeighted && !(this.Case_Length > 200 && this.Case_Length <= 425)) {
@@ -7679,10 +8099,57 @@ class PaletteDesignerPage extends Component {
       else if (this.HWeighted && !this.VWeighted && (this.Case_Length > 200 && this.Case_Length <= 425)) {
         // Frame_List = ["Frame_2", "Frame_3", "Frame_4", "Frame_5", "Frame_6", "Frame_8", "Frame_20", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_25", "Frame_26", "Frame_27", "Frame_28", "Frame_29", "Frame_30", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_35", "Frame_37"];
         // Frame_List = ["Frame_2", "Frame_3", "Frame_4", "Frame_5", "Frame_6", "Frame_8", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_35", "Frame_37"];
-
-        //Todays 16/7/2023
-        Frame_List = ["Frame_2", "Frame_3", "Frame_4", "Frame_5", "Frame_8", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_35", "Frame_37"];
         console.log("Inside possible frames = 4");
+
+        if (this.state.pallete_Type == "EU 6: 800 x 600") {
+          console.log("Inside possible frames = 4 inside 800");
+          Frame_List = [
+            "Frame_2", "Frame_3", "Frame_4", "Frame_5", "Frame_8", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_35", "Frame_37"
+            // "Frame_31", "Frame_32",
+            // "Frame_33", "Frame_34", 
+          ];
+        }
+        else if (this.state.pallete_Type == "EU 2: 1200 x 1000") {
+          console.log("Inside possible frames = 4 inside EU 2: 1200 x 1000");
+          Frame_List = [
+            "Frame_2",
+            "Frame_3", "Frame_4",
+            //  "Frame_5", 
+            "Frame_8",
+            "Frame_21",
+            "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_35", "Frame_37"
+
+          ];
+        }
+        else if (this.state.pallete_Type == "ASIA 1: 1100 x 1100") {
+          console.log("Inside possible frames = 4 inside ASIA 1: 1100 x 1100");
+          Frame_List = [
+            "Frame_2","Frame_3", "Frame_4",
+            // "Frame_8",
+            "Frame_21",
+            "Frame_22", 
+            "Frame_23","Frame_24", "Frame_26", "Frame_35", "Frame_37"
+
+          ];
+        }
+        // else if (this.state.pallete_Type == "AU 1: 1165 x 1165") {
+        //   Frame_List = [
+        //     "Frame_2", "Frame_3", "Frame_4", "Frame_5", "Frame_8", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_35", "Frame_37"
+        //     // "Frame_31", "Frame_32",
+        //     // "Frame_33", "Frame_34", 
+        //   ];
+        // }
+        else {
+          //Todays 16/7/2023
+          Frame_List = [
+            "Frame_2",
+            // "Frame_3", 
+            "Frame_4",
+            "Frame_5", "Frame_8",
+            "Frame_21", "Frame_22", "Frame_23",
+            "Frame_24", "Frame_26", "Frame_31", "Frame_32", "Frame_35", "Frame_37"
+          ];
+        }
       }
 
       else if (!this.HWeighted && this.VWeighted && !(this.Case_Length > 200 && this.Case_Length <= 425)) {
@@ -7691,26 +8158,64 @@ class PaletteDesignerPage extends Component {
       }
 
       else if (!this.HWeighted && this.VWeighted && (this.Case_Length > 200 && this.Case_Length <= 425)) {
+        console.log("Inside possible frames = 6");
         // Frame_List = ["Frame_6", "Frame_7", "Frame_9", "Frame_10", "Frame_11", "Frame_20", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_25", "Frame_26", "Frame_27", "Frame_28", "Frame_29", "Frame_30", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_35", "Frame_37"];
         // Frame_List = ["Frame_6", "Frame_7", "Frame_9", "Frame_10", "Frame_11", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_35", "Frame_37"];
 
         // Frame_List = ["Frame_7", "Frame_9", "Frame_10", "Frame_11", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_37"];
         // Frame_List = ["Frame_9", "Frame_10", "Frame_11", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_34","Frame_37"];
 
-        Frame_List = ["Frame_1", "Frame_9", "Frame_10", "Frame_11", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_34", "Frame_35", "Frame_37"];
-        console.log("Inside possible frames = 6");
+        if (this.state.pallete_Type == "EU 6: 800 x 600") {
+          Frame_List = [
+            "Frame_1", "Frame_9", "Frame_10", "Frame_11", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26",
+            "Frame_35", "Frame_37"
+            // "Frame_31", "Frame_32",
+            // "Frame_33", "Frame_34", 
+            // "Frame_34", 
+          ];
+        } else {
+          Frame_List = [
+            "Frame_1", "Frame_9", "Frame_10", "Frame_11", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_26", "Frame_31", "Frame_32", "Frame_35", "Frame_37"
+            // "Frame_33", "Frame_34", 
+            // "Frame_34", 
+          ];
+        }
       }
 
       else if (!this.HWeighted && !this.VWeighted && (this.Case_Length > 200 && this.Case_Length <= 425)) {
-     //Snehal Test 5Sep23
-     console.log("Inside the snehal")
-     Frame_List = ["Frame_1", "Frame_2", "Frame_3", "Frame_4", "Frame_5", "Frame_6", "Frame_7", "Frame_8", "Frame_20", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_25", "Frame_26", "Frame_27", "Frame_28", "Frame_29", "Frame_30", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_35", "Frame_36", "Frame_37"];
-       
-     //   Frame_List = ["Frame_1", "Frame_2", "Frame_3", "Frame_4", "Frame_5", "Frame_6", "Frame_7", "Frame_8", "Frame_20", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_25", "Frame_26", "Frame_27", "Frame_28", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_35", "Frame_36", "Frame_37"];
+        console.log("Inside possible frames = 7 this.state.pallete_Type = ", this.state.pallete_Type);
+        if (this.state.pallete_Type == "EU 1: 1200 x 800") {
+          Frame_List = ["Frame_1", "Frame_2", "Frame_3", "Frame_4", "Frame_5", "Frame_6", "Frame_7", "Frame_8", "Frame_20", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_25", "Frame_26", "Frame_27", "Frame_28", "Frame_31", "Frame_32", "Frame_35", "Frame_36", "Frame_37"];
+        } else if (this.state.pallete_Type == "EU 6: 800 x 600") {
+          console.log("Framesssssssssssssss")
+          Frame_List = ["Frame_1", "Frame_2", "Frame_3", "Frame_4", "Frame_5", "Frame_6", "Frame_7", "Frame_8", "Frame_20", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_25", "Frame_26", "Frame_27", "Frame_28", "Frame_37", "Frame_33", "Frame_34", "Frame_35", "Frame_36",
+            // "Frame_31",
+            // "Frame_32", 
+          ];
+        }
+        else {
+          console.log("Inside the else")
+
+          Frame_List = ["Frame_1", "Frame_2", "Frame_3", "Frame_4", "Frame_5", "Frame_6", "Frame_7", "Frame_8", "Frame_20", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_25", "Frame_26", "Frame_27", "Frame_28", "Frame_31", "Frame_32", "Frame_37", "Frame_33", "Frame_34", "Frame_35", "Frame_36"]
+
+        }
       }
 
+      // else if (!this.HWeighted && !this.VWeighted && (this.Case_Length > 200 && this.Case_Length <= 425) &&
+      //   (this.state.pallete_Type == "EU 1: 1200 x 800")) {
+      //   console.log("Inside possible frames = 8");
+
+      //   Frame_List = [
+      //     "Frame_1", "Frame_2", "Frame_3", "Frame_4", "Frame_5", "Frame_6", "Frame_7", "Frame_8", "Frame_20", "Frame_21", "Frame_22", "Frame_23", "Frame_24",
+      //     "Frame_25", "Frame_26", "Frame_27", "Frame_28", "Frame_31", "Frame_32", "Frame_35", "Frame_36", "Frame_37"
+      //     // "Frame_33",
+      //     // "Frame_34", 
+      //   ];
+      // }
       else {
         //UnWeighted  "Frame_7","Frame_9"
+        console.log("Inside possible frames = 9");
+
         Frame_List = ["Frame_1", "Frame_2", "Frame_3", "Frame_4", "Frame_5", "Frame_6", "Frame_7", "Frame_8", "Frame_20", "Frame_21", "Frame_22", "Frame_23", "Frame_24", "Frame_25", "Frame_26", "Frame_27", "Frame_28", "Frame_29", "Frame_30", "Frame_31", "Frame_32", "Frame_33", "Frame_34", "Frame_35", "Frame_36", "Frame_37"];
         // Frame_List = ["Frame_1"];
       }
@@ -8316,7 +8821,7 @@ class PaletteDesignerPage extends Component {
     // this.tempJsonToPush = {};
     this.GreenRectPositionBool = true;
     this.state.CasesXYfotGreenRectPRC = [];
-    this.state.CasesXYmanualPRC = [];
+   
     this.state.AllAvlNrPosInDropDownList = [];
     this.state.NrPosInDropDownList = [];
     this.freesedCaseCount = -1;
@@ -8360,10 +8865,10 @@ class PaletteDesignerPage extends Component {
       // if (this.state.panelname == "panel5" ) {
       // if(this.casedata[0].position === ""){
       let foundNrPos = this.generateOriginFirstCase() // gets first case nrPosition
-      this.OffsetChangePrc(0, foundNrPos, "firstCasePosition") // sets first case nrPosition in DB
+      this.OffsetChangePrc(0, 0, "firstCasePosition") // sets first case nrPosition in DB
       if (this.casedata[0].position_freezed) {
-        if (!this.freezNRarray.includes(foundNrPos)) {
-          this.freezNRarray.push(foundNrPos);
+        if (!this.freezNRarray.includes(0)) {
+          this.freezNRarray.push(0);
         }
       }
       // console.log("algo for firstCase: foundNrPostforFirstCase: " + `Nr ${foundNrPos + 1}`)
@@ -8477,6 +8982,12 @@ class PaletteDesignerPage extends Component {
           pre_Pos_X: caseData[this.freesedCaseCount].pre_Pos_X,
           pre_Pos_Y: caseData[this.freesedCaseCount].pre_Pos_Y,
           pre_Pos_Z: caseData[this.freesedCaseCount].pre_Pos_Z,
+          pre_Pos_2X: caseData[this.freesedCaseCount].pre_Pos_2X,
+          pre_Pos_2Y: caseData[this.freesedCaseCount].pre_Pos_2Y,
+          pre_Pos_2Z: caseData[this.freesedCaseCount].pre_Pos_2Z,
+          pre_Pos_3X: caseData[this.freesedCaseCount].pre_Pos_3X,
+          pre_Pos_3Y: caseData[this.freesedCaseCount].pre_Pos_3Y,
+          pre_Pos_3Z: caseData[this.freesedCaseCount].pre_Pos_3Z,
           position: caseData[this.freesedCaseCount].position,
           case_no: (this.freesedCaseCount + 1),
           intermediateLayer: false,
@@ -8595,6 +9106,8 @@ class PaletteDesignerPage extends Component {
     }
     // console.log("image is drawn inside draw for case number = " + this.case_number);
     // this.case_number++;
+    // kaaaaa
+    // this.drawFillRect(CaseInfo, { backgroundColor: "#eab676" }); //postion number of cases
     this.drawRect(CaseInfo); //rectangle for case positions
 
 
@@ -8667,7 +9180,7 @@ class PaletteDesignerPage extends Component {
       }
       // console.log("checking this.Case_Z_Pos in draw::::", this.Case_EndPositions)
       this.Case_EndPositions.push(tempXYpos)
-
+     
       // this.tempJsonToPush[this.selectedVar] = this.Case_EndPositions
 
       tempXYpos = "";
@@ -8698,8 +9211,8 @@ class PaletteDesignerPage extends Component {
       // console.log("case_data for offset prc" + JSON.stringify(tempGreenRectXYWH));
       this.state.CasesXYfotGreenRectPRC.push(tempGreenRectXYWH);
       //  this.drawFillRect(CaseInfo, { backgroundColor: "#eab676" }); //postion number of cases
-      this.state.CasesXYmanualPRC.push(tempGreenRectXYWH);
-
+     //this.state.CasesXYmanualPRC.push(tempGreenRectXYWH);
+     //this.handlenumoncase();
       tempGreenRectXYWH = [];
 
       // 
@@ -8754,6 +9267,8 @@ class PaletteDesignerPage extends Component {
 
     this.setState({
       canvasGreenRect: "visible",
+      canvasOrangeRect: "visible",
+      canvasRedRect: "visible",
       canvasfreezGreenRect: "visible",
 
     })
@@ -8832,10 +9347,10 @@ class PaletteDesignerPage extends Component {
     const CaseInfo2 = { x: 272, y: 320, w: 247, h: 50 }; //down 
 
     //Right
-    const CaseInfo3 = { x: 661, y: 120, w: 130, h: 160 }; //right 
+    const CaseInfo3 = { x: 661, y: 120, w: 130, h: 120 }; //right 
 
     //Left
-    const CaseInfo4 = { x: 0, y: 120, w: 130, h: 160 }; //left 
+    const CaseInfo4 = { x: 0, y: 120, w: 130, h: 120 }; //left 
 
     //UP
     const CaseInfo5 = { x: 272, y: 0, w: 247, h: 50 }; // front 
@@ -8849,12 +9364,12 @@ class PaletteDesignerPage extends Component {
     const CaseInfo9 = { x: 272, y: 50, w: 247, h: 50 }; // Top 
 
     //Top-corner Right
-    const CaseInfo10 = { x: 661, y: 120, w: 130, h: 160 }; //right
-    const CaseInfo11 = { x: 544, y: 120, w: 247, h: 160 }; // viewver's right-top
+    const CaseInfo10 = { x: 661, y: 120, w: 130, h: 120 }; //right
+    const CaseInfo11 = { x: 544, y: 120, w: 247, h: 120 }; // viewver's right-top
 
     //Top-corner Left
-    const CaseInfo12 = { x: 0, y: 120, w: 20, h: 160 }; //left
-    const CaseInfo13 = { x: 0, y: 120, w: 247, h: 160 }; // vievwer's left-top
+    const CaseInfo12 = { x: 0, y: 120, w: 20, h: 120 }; //left
+    const CaseInfo13 = { x: 0, y: 120, w: 247, h: 120 }; // vievwer's left-top
 
     //bottom-left side corner
     const CaseInfo14 = { x: 0, y: 350, w: 247, h: 20 }; //down //
@@ -9904,9 +10419,7 @@ class PaletteDesignerPage extends Component {
   }
 
   generateFrames = (P_Origin, index, noOfSchemaCases, isSim, simulationSchema) => {
-    console.log('Generate Frames Index',index);
-    // console.log("asdasdasdasposs_Origin here createVariants ", P_Origin, " index ", index)
-
+   
 
     const memoize_Display_Variants = this.memoize_DV(this.Display_Variants)
 
@@ -9917,7 +10430,6 @@ class PaletteDesignerPage extends Component {
         case "Frame_1":
 
           const memoizeFrame_1 = this.memoize(Frame_1);
-
 
           let varientCheck_1 = memoize_Display_Variants(
             memoizeFrame_1(
@@ -10198,6 +10710,7 @@ class PaletteDesignerPage extends Component {
               index
             ), isSim, simulationSchema
           );
+          console.log("varientCheck_8::",varientCheck_8);
 
           let tempVarientCheck_8 = [...varientCheck_8]
           tempVarientCheck_8.sort()
@@ -10325,8 +10838,6 @@ class PaletteDesignerPage extends Component {
 
           break;
         case "Frame_20":
-
-
           const memoizeFrame_20 = this.memoize(Frame_20);
 
           let varientCheck_20 = memoize_Display_Variants(
@@ -10345,6 +10856,7 @@ class PaletteDesignerPage extends Component {
               index
             ), isSim, simulationSchema
           );
+          console.log("Varient checj 20:::",varientCheck_20);
 
           let tempVarientCheck_20 = [...varientCheck_20]
           tempVarientCheck_20.sort()
@@ -12005,6 +12517,24 @@ class PaletteDesignerPage extends Component {
       }
     }
 
+    if (name === "working_area_2_Height_Z_Direction") {
+
+      console.log("working_area_2_Height_Z_Direction = " + event.target.value);
+      this.setState({
+        WA_2_Height_Z_Dir: event.target.value,
+      });
+      if (event.target.value > 1400 || event.target.value < 10) {
+        this.setState({
+          errorWorkingaraeaHeightfor2: true,
+          errorHelperForWorkingareaHeightfor2: 10 + " - " + 1400,
+        });
+      } else {
+        this.setState({
+          errorWorkingaraeaHeightfor2: false,
+          errorHelperForWorkingareaHeightfor2: " ",
+        });
+      }
+    }
     if (name === "working_area_2_Offset_X_Direction") {
 
       this.firstCaseOriginChangeFlush("pal2");
@@ -12291,7 +12821,12 @@ class PaletteDesignerPage extends Component {
         WA_2_Length_Y_Dir: event.target.value
       });
     }
-
+    if (name === "working_area_2_Height_Z_Direction") {
+      this.WA_2_Height_Z_Dir = event.target.value;
+      this.setState({
+        WA_2_Height_Z_Dir: event.target.value
+      });
+    }
 
     if (name === "working_area_2_Offset_X_Direction") {
       this.WA_2_Offset_X_Dir = event.target.value;
@@ -14520,7 +15055,12 @@ class PaletteDesignerPage extends Component {
       this.setState({
         case_data: [...tempArr]
       });
-      this.showOnFieldsClickGreenRect((value - 1), [...tempArr])
+      console.log("Inside handleValueChangePrepos this.state.case_data = ", this.state.case_data);
+      this.showOnFieldsClickGreenRect((value - 1), [...tempArr]);
+      this.showOnFieldsClickOrangeRect((value - 1), [...tempArr]);
+      this.showOnFieldsClickRedRect((value - 1), [...tempArr]);
+      this.showOnFieldsClickAllRect((value - 1), [...tempArr]);
+
       // console.log("update layer data inside handleSelectionLayerPallet =", this.state.layer_data);
     }
 
@@ -15058,10 +15598,10 @@ class PaletteDesignerPage extends Component {
           auto_generation: true,
           position_freezed: true,
           // position: "Nr "+(index+1),
-          position: (this.autoGenerateCasePositionsDistance.length - 1) >= index ? "Nr " + this.autoGenerateCasePositionsDistance[index][0] : "",
-          case_x_position: (this.autoGenerateCasePositionsDistance.length - 1) >= index ? this.Case_EndPositions[(this.autoGenerateCasePositionsDistance[index][0]) - 1].case_x_position : 0,
-          case_y_position: (this.autoGenerateCasePositionsDistance.length - 1) >= index ? this.Case_EndPositions[(this.autoGenerateCasePositionsDistance[index][0]) - 1].case_y_position : 0,
-          case_z_position: (this.autoGenerateCasePositionsDistance.length - 1) >= index ? this.Case_EndPositions[(this.autoGenerateCasePositionsDistance[index][0]) - 1].case_z_position : 0,
+          // position: (this.autoGenerateCasePositionsDistance.length - 1) >= index ? "Nr " + this.autoGenerateCasePositionsDistance[index][0] : "",
+          // case_x_position: (this.autoGenerateCasePositionsDistance.length - 1) >= index ? this.Case_EndPositions[(this.autoGenerateCasePositionsDistance[index][0]) - 1].case_x_position : 0,
+          // case_y_position: (this.autoGenerateCasePositionsDistance.length - 1) >= index ? this.Case_EndPositions[(this.autoGenerateCasePositionsDistance[index][0]) - 1].case_y_position : 0,
+          // case_z_position: (this.autoGenerateCasePositionsDistance.length - 1) >= index ? this.Case_EndPositions[(this.autoGenerateCasePositionsDistance[index][0]) - 1].case_z_position : 0,
           palletid: this.state.palletid
         }
       });
@@ -15110,6 +15650,10 @@ class PaletteDesignerPage extends Component {
     }
 
     this.autoGenerateCaseFreez();
+    this.setState({
+      canvasOrangeRect: "hidden",
+      canvasRedRect : "hidden"
+    })
 
   }
 
@@ -15175,6 +15719,9 @@ class PaletteDesignerPage extends Component {
         return {
           ...item,          
           position: (this.autoGenerateCasePositionsDistance.length - 1) >= index ? "Nr " + this.autoGenerateCasePositionsDistance[index][0] : "",
+          case_x_position: (this.autoGenerateCasePositionsDistance.length - 1) >= index ? this.Case_EndPositions[(this.autoGenerateCasePositionsDistance[index][0]) - 1].case_x_position : 0,
+          case_y_position: (this.autoGenerateCasePositionsDistance.length - 1) >= index ? this.Case_EndPositions[(this.autoGenerateCasePositionsDistance[index][0]) - 1].case_y_position : 0,
+          case_z_position: (this.autoGenerateCasePositionsDistance.length - 1) >= index ? this.Case_EndPositions[(this.autoGenerateCasePositionsDistance[index][0]) - 1].case_z_position : 0,
          
         }
       });
@@ -15217,7 +15764,7 @@ class PaletteDesignerPage extends Component {
       });
     }
 
-    this.autoGenerateCaseFreez();
+    // this.autoGenerateCaseFreez();
     this.setState({
       canvasOrangeRect: "hidden",
       canvasRedRect : "hidden"
@@ -16180,19 +16727,23 @@ class PaletteDesignerPage extends Component {
                   tempNRValue: positionNR,
                 })
 
-                // console.log("this.state.case_data[index].prePosX: " + this.state.case_data[index].pre_Pos_X)
-
-                // let xPos = this.state.CasesXYfotGreenRectPRC[positionNR - 1].x - this.state.case_data[index].pre_Pos_X;  // need to change minus prePos x offset
+                //For GreenRect
                 let xPos = this.state.CasesXYfotGreenRectPRC[positionNR - 1].x - this.map(this.state.case_data[index].pre_Pos_X, 0, 1400, 0, 222);  // need to change minus prePos x offset
-                // let yPos = this.state.CasesXYfotGreenRectPRC[positionNR - 1].y - this.state.case_data[index].pre_Pos_Y;  // need to change minus prePos y offset
                 let yPos = this.state.CasesXYfotGreenRectPRC[positionNR - 1].y - this.map(this.state.case_data[index].pre_Pos_Y, 0, 1400, 0, 222);  // need to change minus prePos y offset
+                //For OrangeRect
+                let xPos1 = this.state.CasesXYfotGreenRectPRC[positionNR - 1].x - this.map(this.state.case_data[index].pre_Pos_2X, 0, 1400, 0, 222);  // need to change minus prePos x offset
+                let yPos1 = this.state.CasesXYfotGreenRectPRC[positionNR - 1].y - this.map(this.state.case_data[index].pre_Pos_2Y, 0, 1400, 0, 222);  // need to change minus prePos y offset
+                //For RedRect
+                let xPos2 = this.state.CasesXYfotGreenRectPRC[positionNR - 1].x - this.map(this.state.case_data[index].pre_Pos_3X, 0, 1400, 0, 222);  // need to change minus prePos x offset
+                let yPos2 = this.state.CasesXYfotGreenRectPRC[positionNR - 1].y - this.map(this.state.case_data[index].pre_Pos_3Y, 0, 1400, 0, 222);  // need to change minus prePos y offset
+
                 let w = this.state.CasesXYfotGreenRectPRC[positionNR - 1].w;
                 let h = this.state.CasesXYfotGreenRectPRC[positionNR - 1].h;
 
 
                 this.drawGreenRect(xPos, yPos, w, h);
-
-
+                this.drawOrangeRect(xPos1, yPos1, w, h);
+                this.drawRedRect(xPos2, yPos2, w, h);
               }
             })
           }
@@ -16230,6 +16781,10 @@ class PaletteDesignerPage extends Component {
 
       if (e.target.name !== "position_freezed" && e.target.name !== "position") {
         this.showOnFieldsClickGreenRect(index, toUpdateCaseData);
+        this.showOnFieldsClickOrangeRect(index, toUpdateCaseData);
+        this.showOnFieldsClickRedRect(index, toUpdateCaseData);
+        this.showOnFieldsClickAllRect(index, toUpdateCaseData);
+
       }
     }
 
@@ -16263,12 +16818,34 @@ class PaletteDesignerPage extends Component {
     }
   }
 
+  handleMouseDown = (e) => {
+    if(this.state.panelname === "panel5")
+   {
+   
+    const rect = this.myRef_GR.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    // Check if the click is within any of the selected puzzle pieces
+    for (let i = 0; i < this.state.CasesXYmanualPRC.length; i++) {
+      const piece = this.state.CasesXYmanualPRC[i];
+      console.log(piece,"ppppp")
+      if (x >= piece.x && x <= piece.x + piece.w && y >= piece.y && y <= piece.y + piece.h) {
+        this.selectedPieceIndex = i;
+        this.dragging = true;
+        this.dragStartX = x;
+        this.dragStartY = y;
+        break;
+      }
+    }
+   }
+  }
+
 
   handleMouseMove = (e) => {
     if (this.state.panelname === "panel5") {
 
       if (!this.dragging || this.selectedPieceIndex === null) return;
-
+      
       const rect = this.myRef_GR.current.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -16276,7 +16853,7 @@ class PaletteDesignerPage extends Component {
       const deltaX = x - this.dragStartX;
       const deltaY = y - this.dragStartY;
 
-      const selectedPiece = this.state.CasesXYfotGreenRectPRC[this.selectedPieceIndex];
+      const selectedPiece = this.state.CasesXYmanualPRC[this.selectedPieceIndex];
       selectedPiece.x += deltaX;
       selectedPiece.y += deltaY;
 
@@ -16316,7 +16893,7 @@ class PaletteDesignerPage extends Component {
       // this.ctx_forPRC.lineWidth = 0.7;
       // this.ctx_forPRC.rect(selectedPiece.x, selectedPiece.y, selectedPiece.w, selectedPiece.h);
       // this.ctx_forPRC.stroke();
-
+      
       this.drawFillRect(selectedPiece, { backgroundColor: "#eab676" })
       this.ctx_forPRC.beginPath();
       this.ctx_forPRC.fillStyle = "#eab676";
@@ -16345,7 +16922,7 @@ class PaletteDesignerPage extends Component {
 
   handleMouseUp = (e) => {
     if (this.state.panelname === "panel5") {
-
+    
       this.Case_EndPositions = []
       console.log("upppppp", this.Case_No)
       this.ctx_forPRC.clearRect(
@@ -16622,6 +17199,42 @@ class PaletteDesignerPage extends Component {
       this.selectedPieceIndex = null;
     }
     // this.createlabeledImg()
+  }
+  showOnFieldsClickOrangeRect = (index, toUpdateCaseData) => {
+
+    console.log("Inside showOnFieldsClickOrangeRect1 Called ORANGE-Rect");
+
+    let position = toUpdateCaseData[index].position;
+    if (position != "") {
+      let NrValue = position.split(" ")[1];
+      let xPos1 = this.state.CasesXYfotGreenRectPRC[NrValue - 1].x + this.map(toUpdateCaseData[index].pre_Pos_2Y, 0, 1400, 0, 222);  // x y interchanged for PRC
+      let yPos1 = this.state.CasesXYfotGreenRectPRC[NrValue - 1].y - this.map(toUpdateCaseData[index].pre_Pos_2X, 0, 1400, 0, 222);  // x y interchanged for PRC
+      let w = this.state.CasesXYfotGreenRectPRC[NrValue - 1].w;
+      let h = this.state.CasesXYfotGreenRectPRC[NrValue - 1].h;
+
+      this.drawOrangeRect(xPos1, yPos1, w, h);
+    }
+  }
+  showOnFieldsClickRedRect = (index, toUpdateCaseData) => {
+
+    console.log("Inside showOnFieldsClickRedRect1 Called RED-Rect");
+
+    let position = toUpdateCaseData[index].position;
+    if (position != "") {
+      let NrValue = position.split(" ")[1];
+      let xPos2 = this.state.CasesXYfotGreenRectPRC[NrValue - 1].x + this.map(toUpdateCaseData[index].pre_Pos_3Y, 0, 1400, 0, 222);  // x y interchanged for PRC
+      let yPos2 = this.state.CasesXYfotGreenRectPRC[NrValue - 1].y - this.map(toUpdateCaseData[index].pre_Pos_3X, 0, 1400, 0, 222);  // x y interchanged for PRC
+      let w = this.state.CasesXYfotGreenRectPRC[NrValue - 1].w;
+      let h = this.state.CasesXYfotGreenRectPRC[NrValue - 1].h;
+
+      this.drawRedRect(xPos2, yPos2, w, h);
+    }
+  }
+
+  showOnFieldsClickAllRect = (index, toUpdateCaseData) => {
+    this.showOnFieldsClickGreenRect(index, toUpdateCaseData);
+    this.showOnFieldsClickOrangeRect(index, toUpdateCaseData);
+    this.showOnFieldsClickRedRect(index, toUpdateCaseData);
   }
 
 
@@ -17149,10 +17762,22 @@ class PaletteDesignerPage extends Component {
   };
 
   getPallets = async () => {
+    const paramsid = parseInt(this.props.match.params.palletid)
     let id = 0;
     let records = [];
     try {
       let resonse = await axios.get(`/Threed/getPallets`);
+     const designData= resonse.data.filter((item)=>{
+        if(item.palletId===paramsid){
+          return item
+        }
+
+      })
+      this.setState({
+        intermediate_Layer_Length:designData[0].intermediateLayerLength,
+        intermediate_Layer_Width:designData[0].intermediateLayerWidth,
+        WA_1_Height_Z_Dir:designData[0].working_area_1_Height_Z_Direction
+      })
       records = resonse.data;
       // console.log("records = ", records);
       this.pallets.push(records)
@@ -17248,7 +17873,7 @@ class PaletteDesignerPage extends Component {
   };
 
   handleStartSimulation = (event) => {
-    this.tempVarForSimFaild==0;
+    this.tempVarForSimFaild=0;
     let { t } = this.props
     const { rangeValue } = this.state
 
@@ -17307,11 +17932,9 @@ class PaletteDesignerPage extends Component {
        if (event == "collision") {
          let { t } = this.props;
    
-         // toast.error(t(`casecollisiondetected`), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
-         // toast.error(`Case Collision Detected at Schema ${schema}, Case No. ${case_no}`, { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
     if(this.tempVarForSimFaild == 1){
-         toast.error(`${t(`casecollisiondetected`)} : ${schema}, ${t("case")} Nr. ${case_no}`, { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
-    }
+      toast.error(`${t(`casecollisiondetected`)} : ${t("schema")} ${schema.split(" ")[1]}, ${t("case")} Nr. ${case_no}`, { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
+ }
          // console.log("checking case collision::case_No:::: ", case_No)
          this.state.simulationStatus = (t("failed"));
          this.setState({
@@ -17440,6 +18063,7 @@ class PaletteDesignerPage extends Component {
     }
   };
   render() {
+    const { isExpanded } = this.state;
     let intermediateValue = this.state.intermediate_Layer_Type;
     // console.log("intermediateValue inside render " + intermediateValue);
     if (this.state.arrowUpdate === true) {
@@ -17582,32 +18206,33 @@ class PaletteDesignerPage extends Component {
                           slideShadows: false,
 
                         }}
-                        // onClick={this.swiperClicked}
-                        // changing width for swiper 
-                        // style={{ position: "relative", width: "538px", right: "131px" }}
-                        style={{ position: "relative", width: "597px", right: "109px", top: "40px" }}
-                      // style={{ position: "relative", width: "486px", right: "148px" }}
+
+                        style={{ position: "relative", width: "569px", margin: "10px" }}
+
                       >
 
                         {this.imageSrc_array.map((image, index) => (
 
 
-                          <SwiperSlide key={index} style={{ position: "relative" }}>
+                          <SwiperSlide key={index} style={{ position: "relative" }}
+                            onClick={() => {this.rotate_180_degrees(index)
+                            this.Vertical_flip(index)
+                            this.Horizontally_flip(index)
+                            
+                            }}
+
+                 
+                          >
                             <p style={{ marginTop: this.state.dyMarginTop_swiperText, textAlign: "center", marginBottom: this.state.dyMarginBottom_swiperText, marginLeft: this.state.dyMarginLeft_swiperText, position: "relative" }}>
                               {this.variantName_array[index]}</p>
-                            <img src={image} alt="" style={{ marginTop: this.state.dyMarginTop_swiper, left: "45px", right: "17px", border: "2px solid", position: "relative" }} />
+                            <img src={image} alt="" style={{ marginTop: this.state.dyMarginTop_swiper, left: "-7px", right: "17px", border: "2px solid", position: "relative" }} />
 
                           </SwiperSlide>
 
                         ))}
 
                       </Swiper>
-                      <Divider orientation="vertical" style={{ height: "372px", marginRight: "196px", marginTop: "-203px" }}></Divider>
-                      <img src={priyuimg} alt="" style={{ left: "634px", border: "1px solid", bottom: "348px", height: "90px", width: "114px", position: "relative" }} />
-                      <img src={priyup} alt="" style={{ left: "520px", border: "1px solid", bottom: "234px", height: "90px", width: "114px", position: "relative" }} />
-                      <img src={priyup1} alt="" style={{ left: "406px", border: "1px solid", bottom: "119px", height: "90px", width: "114px", position: "relative" }} />
-                      {/* <img src={priyup} alt="" style={{ left: "45px", right: "17px", border:"2px solid", position: "relative" }} />
-                      <img src={priyup1} alt="" style={{ left: "45px", right: "17px", border:"2px solid", position: "relative" }} /> */}
+
 
                     </div>)}
 
@@ -17662,6 +18287,7 @@ class PaletteDesignerPage extends Component {
                   )}
 
                   {/* rotation hota hai yha se label ka */}
+                  {/* GreenRect Canvas */}
                   <canvas
                     id="rotationCanvas"
                     ref={this.myRef_GR}
@@ -17671,6 +18297,38 @@ class PaletteDesignerPage extends Component {
                       marginTop: this.state.margintop_prc,
                       marginBottom_greenrect: this.marginBottom_greenrect,
                       visibility: this.state.canvasGreenRect,
+                    }}
+                    onClick={(e) => this.caseRotateOnClickHandler(e)}
+                    onTouchStart={(e) => this.handleTouchStart(e)}
+                    onTouchMove={(e) => this.handleTouchMove(e)}
+                    onTouchEnd={(e) => this.handleTouchEnd(e)}
+                  ></canvas>
+                  {/* Orange Canvas */}
+                  <canvas
+                    id="rotationCanvas"
+                    ref={this.myRef_OR}
+                    style={{
+                      position: "absolute",
+                      zIndex: "5",
+                      marginTop: this.state.margintop_prc,
+                      marginBottom_greenrect: this.marginBottom_greenrect,
+                      visibility: this.state.canvasOrangeRect,
+                    }}
+                    onClick={(e) => this.caseRotateOnClickHandler(e)}
+                    onTouchStart={(e) => this.handleTouchStart(e)}
+                    onTouchMove={(e) => this.handleTouchMove(e)}
+                    onTouchEnd={(e) => this.handleTouchEnd(e)}
+                  ></canvas>
+                  {/* RedRect Canvas */}
+                  <canvas
+                    id="rotationCanvas"
+                    ref={this.myRef_RD}
+                    style={{
+                      position: "absolute",
+                      zIndex: "5",
+                      marginTop: this.state.margintop_prc,
+                      marginBottom_greenrect: this.marginBottom_greenrect,
+                      visibility: this.state.canvasRedRect,
                     }}
                     onClick={(e) => this.caseRotateOnClickHandler(e)}
                     onTouchStart={(e) => this.handleTouchStart(e)}
@@ -17739,13 +18397,54 @@ class PaletteDesignerPage extends Component {
                     }}>
 
                   </canvas>
+                  <canvas
+                    id="rotationCanvas"
+                    ref={this.myRef_forPDCanvas}
+                    style={{
+                      position: "absolute",
+                      visibility: this.state.forPDCanvas,
+                      // zIndex: 2
+                    }}
+                  ></canvas>
 
+
+                  <canvas
+                    id="rotationCanvasPatil"
+                    ref={this.myRef_forPDPatilCanvas}
+                    style={{
+                      position: "absolute",
+                      visibility: this.state.forPDPatilCanvas,
+                      // zIndex: 2
+                    }}
+                  ></canvas>
+
+                  <canvas
+                    id="rotationpriyuCanvasPatil"
+                    ref={this.myRef_forPDPatilpriyaCanvas}
+                    style={{
+                      position: "absolute",
+                      visibility: this.state.forPDPatilpriyaCanvas,
+                      // zIndex: 2
+                    }}
+                  ></canvas>
+                  <canvas
+                    className='GreenCanCaseFreez'
+                    ref={this.myRef_for_PatternWizard}
+                    style={{
+                      position: "absolute",
+                      visibility: this.state.canvas_PatternWizard,
+                    }}>
+                  </canvas>
                   <canvas
                     className='GreenCanCaseFreez'
                     ref={this.myRef_for_LayerCreator}
                     style={{
                       position: "absolute",
                       visibility: this.state.canvas_LayerCreator,
+                      marginTop: this.state.Margin_Top,
+                      width: this.state.Margin_Width,
+                      height: this.state.Margin_Height,
+                      left: this.state.Margin_Left,
                     }}>
                   </canvas>
                   {this.state.panelname == "" || this.state.panelname == "panel2"
@@ -17787,8 +18486,8 @@ class PaletteDesignerPage extends Component {
                     <Simulation style={{ position: "absolute", height: '372px !important' }}
                       simulationSpeed={this.state.simulationSpeed}
                       simulationRunning={this.state.simulationRunning}
-                      Pallet_Length={this.map(this.Pallet_Length, 0, 1400, 0, 2.975)}
-                      Pallet_Width={this.map(this.Pallet_Width, 0, 1400, 0, 2.985)}
+                      Pallet_Length={this.map(this.Pallet_Length, 0, 1400, 0, 2.990)}
+                      Pallet_Width={this.map(this.Pallet_Width, 0, 1400, 0, 2.992)}
                       Case_Length={this.map(this.Case_Length, 0, 1400, 0, 2.965)}
                       Case_Width={this.map(this.Case_Width, 0, 1400, 0, 2.965)}
                       Case_Height={this.map(this.Case_Height, 0, 1400, 0, 2.965)}
@@ -17800,6 +18499,8 @@ class PaletteDesignerPage extends Component {
                       layer_data={this.state.layer_data}
                       S_state={this.state.panelname}
                       intermediate_Layer_Type={this.map(this.state.intermediate_Layer_Type, 0, 1400, 0, 2.965)}
+                      intermediate_Layer_Type_Length={this.map(this.state.intermediate_Layer_Length, 0, 1400, 0, 2.965)}
+                      intermediate_Layer_Type_Width={this.map(this.state.intermediate_Layer_Width, 0, 1400, 0, 2.965)}
                       handleAbortSimulation={this.handleAbortSimulation}
                       handleSimulationPassed={this.handleSimulationPassed}
                       WA_1_width_X_Dir={this.map(this.WA_1_width_X_Dir, 0, 1400, 0, 2.965)}
@@ -17862,7 +18563,7 @@ class PaletteDesignerPage extends Component {
                       // variant="outlined"
                       size="small"
                     />
-                    <Button style={{ zIndex: 5, marginLeft: "60px", marginTop: "6px", alignSelf: 'center', minWidth: "0px", width: "35px", height: "35px", border: "1px solid black", right: 0, borderRadius: "50%" }} className="backBtn" onClick={this.handleBack}>
+                    <Button style={{ zIndex: 5, marginLeft: "60px", alignSelf: 'center', minWidth: "0px", width: "35px", height: "35px", border: "1px solid black", right: 0, borderRadius: "50%" }} className="backBtn" onClick={this.handleBack}>
                       {/* <Button style={{marginLeft: '45px' , marginTop: "12px", display: 'flex', alignSelf: 'center',  width:"5px", height:"65px",  marginBottom: '10px', marginRight: '200px', border: '1px solid black', borderRadius:"98px", }} className="backBtn"
                       onClick={this.handleBack}> */}
                       <HomeIcon />
@@ -18032,6 +18733,11 @@ class PaletteDesignerPage extends Component {
                   S_WA_2_Length_Y_Dir={this.state.WA_2_Length_Y_Dir}
                   G_WA_2_Length_Y_Dir={this.WA_2_Length_Y_Dir}
 
+                  //Height 2
+                  S_WA_2_Height_Z_Dir={this.state.WA_2_Height_Z_Dir}
+                  G_WA_2_Height_Z_Dir={this.WA_2_Height_Z_Dir}
+                  errorWorkingaraeaHeightfor2={this.state.errorWorkingaraeaHeightfor2}
+                  errorHelperForWorkingareaHeightfor2={this.state.errorHelperForWorkingareaHeightfor2}
                   // callBlurFor_Workingareafor2Y={this.callBlurFor_Workingareafor2Y}
 
                   //offset 2
@@ -18077,6 +18783,9 @@ class PaletteDesignerPage extends Component {
                   set_WA_2_Length_Y_Dir={this.set_WA_2_Length_Y_Dir}
                   setErrorWorkingaraeaLengthfor2={this.setErrorWorkingaraeaLengthfor2}
                   setErrorHelperForWorkingareaLengthfor2={this.setErrorHelperForWorkingareaLengthfor2}
+                  set_WA_2_Height_Z_Dir={this.set_WA_2_Height_Z_Dir}
+                  setErrorWorkingaraeaHeightfor2={this.setErrorWorkingaraeaHeightfor2}
+                  setErrorHelperForWorkingareaHeightfor2={this.setErrorHelperForWorkingareaHeightfor2}
 
 
                   set_WA_2_Offset_X_Dir={this.set_WA_2_Offset_X_Dir}
@@ -18226,6 +18935,8 @@ class PaletteDesignerPage extends Component {
 
                   WA_2_width_X_Dir={this.WA_2_width_X_Dir}
                   WA_2_Length_Y_Dir={this.WA_2_Length_Y_Dir}
+                  set_WA_2_Height_Z_Dir={this.state.WA_2_Height_Z_Dir}
+
                   G_WA_2_Offset_Y_Dir={this.WA_2_Offset_Y_Dir}
                   G_WA_2_Offset_X_Dir={this.WA_2_Offset_X_Dir}
 
@@ -18285,9 +18996,11 @@ class PaletteDesignerPage extends Component {
                   // updateSelectionForCases={this.updateSelectionForCases}
                   handleSelection={this.handleSelection}
                   updatePallet={this.updatePallet}
-
-
-
+                  Vertical_flip={this.Vertical_flip}
+                  Horizontally_flip={this.Horizontally_flip}
+                  loadHorizontallyFlippedImage={this.loadHorizontallyFlippedImage}
+                  loadVerticallyFlippedImage={this.loadVerticallyFlippedImage}
+                  rotate_180_degrees={this.rotate_180_degrees}
 
                   G_listForOutsideLabelPrior={this.listForOutsideLabelPrior}
                   G_tempLabelindex={this.tempLabelindex}
@@ -18327,7 +19040,7 @@ class PaletteDesignerPage extends Component {
                   S_colorB={this.state.colorB}
                   S_colorC={this.state.colorC}
 
-
+                  imageSrc_array ={this.imageSrc_array}
 
                 />
 
@@ -18412,6 +19125,9 @@ class PaletteDesignerPage extends Component {
                   S_colorA={this.state.colorA}
                   S_colorB={this.state.colorB}
                   showOnFieldsClickGreenRect={this.showOnFieldsClickGreenRect}
+                  showOnFieldsClickOrangeRect={this.showOnFieldsClickOrangeRect}
+                  showOnFieldsClickRedRect={this.showOnFieldsClickRedRect}
+                  showOnFieldsClickAllRect={this.showOnFieldsClickAllRect}
                   G_casedata={this.casedata}
                   S_CasesXYfotGreenRectPRC={this.state.CasesXYfotGreenRectPRC}
                   OffsetChangePrc={this.OffsetChangePrc}

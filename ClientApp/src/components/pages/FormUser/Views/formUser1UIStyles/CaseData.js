@@ -300,6 +300,7 @@ const CaseData = ({
                                 onBlur={callBlurForMass}
                                 // multiLine={true}
                                 type="number"
+                                inputProps={{ min: 0 }}
                                 className={classes.textField2}
                                 InputLabelProps={{ shrink: true, style: { fontSize: 12, top: "3px" } }}
                                 // max="30"

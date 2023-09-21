@@ -7,6 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { Select, MenuItem } from "@material-ui/core";
 import Checkbox from "@mui/material/Checkbox";
+import Button from "@material-ui/core/Button";
 
 
 import { handleSelection1, updateSelectionForCases } from '../Controller/pwController'
@@ -17,6 +18,7 @@ import {
   ExpansionPanelDetailsStyle, GridTopStyle, containerGridstyle, GridItemStyle, outside_labelpriorityStyle,
   TextFieldSchmaStyle, PatternTextfliedsNamesRur, PatternTextFieldInputProps
 } from '../../DashboardPage_UI/UICommonStyles'
+import { events } from "@react-three/fiber";
 
 
 const PatternWizard = ({ handleChangepanel,
@@ -45,6 +47,9 @@ const PatternWizard = ({ handleChangepanel,
   S_colorA,
   S_colorB,
   S_colorC,
+  Vertical_flip,
+  index,
+  loadVerticallyFlippedImage,
   handlecolorA,
   handlecolorB,
   handlecolorC,
@@ -53,7 +58,9 @@ const PatternWizard = ({ handleChangepanel,
   disableAlgoPW,
   updatePallet,
   swiperRef,
-  backgroundColor
+  backgroundColor,
+  imageSrc_array,
+ 
 }) => {
   const [circular, setCircular] = useState('hidden')
 
@@ -317,8 +324,7 @@ const PatternWizard = ({ handleChangepanel,
                 <TextField
                   id="outlined-read-only-input"
                   label=""
-                  defaultValue="Mirror Holizontal"
-                  // className={classes.textField}
+                  defaultValue={t('mirrorhorizontal')}
                   margin="dense" style={{ height: 27, width: "74%" }}
                   InputProps={{
                     readOnly: true,
@@ -338,9 +344,9 @@ const PatternWizard = ({ handleChangepanel,
                       color: "rgb(0,125,129)",
                     },
                   }}
-                  onChange={handleSelection("HWeighted")}
-                  checked={selectedOne ? S_HWeighted1 : S_HWeighted2}
-                  onBlur={(e) => updateSelectionForCases(e, updatePallet)}
+                  // onChange={handleSelection("HWeighted")}
+                  // checked={selectedOne ? S_HWeighted1 : S_HWeighted2}
+                  // onBlur={(e) => updateSelectionForCases(e, updatePallet)}
                 />
               </Grid>
 
@@ -348,7 +354,7 @@ const PatternWizard = ({ handleChangepanel,
                 <TextField
                   id="outlined-read-only-input"
                   label=""
-                  defaultValue="Mirror Vertical"
+                  defaultValue={t('mirrorvertical')}
                   // className={classes.textField}
                   margin="dense" style={{ height: 27, width: "74%" }}
                   InputProps={{
@@ -369,9 +375,9 @@ const PatternWizard = ({ handleChangepanel,
                       color: "rgb(0,125,129)",
                     },
                   }}
-                  onChange={handleSelection("HWeighted")}
-                  checked={selectedOne ? S_HWeighted1 : S_HWeighted2}
-                  onBlur={(e) => updateSelectionForCases(e, updatePallet)}
+                  // onChange={handleSelection("HWeighted")}
+                  // checked={selectedOne ? S_HWeighted1 : S_HWeighted2}
+                  // onBlur={(e) => updateSelectionForCases(e, updatePallet)}
                 />
               </Grid>
 
@@ -379,7 +385,8 @@ const PatternWizard = ({ handleChangepanel,
                 <TextField
                   id="outlined-read-only-input"
                   label=""
-                  defaultValue= "Rotate 180"
+        
+                  defaultValue={t('Rotate180')}
                   // className={classes.textField}
                   margin="dense" style={{ height: 27, width: "74%" }}
                   InputProps={{
@@ -400,9 +407,9 @@ const PatternWizard = ({ handleChangepanel,
                       color: "rgb(0,125,129)",
                     },
                   }}
-                  onChange={handleSelection("HWeighted")}
-                  checked={selectedOne ? S_HWeighted1 : S_HWeighted2}
-                  onBlur={(e) => updateSelectionForCases(e, updatePallet)}
+                  // onChange={handleSelection("HWeighted")}
+                  // checked={selectedOne ? S_HWeighted1 : S_HWeighted2}
+                  // onBlur={(e) => updateSelectionForCases(e, updatePallet)}
                 />
               </Grid>
 
@@ -444,7 +451,24 @@ const PatternWizard = ({ handleChangepanel,
                   size="small"
                 />
 
+                <div style={{ display: "flex", flexDirection: "row", marginLeft: "23px", }}>
+                  <div style={{ display: "flex", flexDirection: "row", border: "1px solid gray", height: "45px", width: "50px", borderRadius: "50px", marginLeft: "7px" }}>
+                    <Button style={{ right: "7px" }}>
+                      180
+                    </Button>
+                  </div>
 
+                  <div style={{ display: "flex", flexDirection: "row", border: "1px solid gray", height: "45px", width: "50px", borderRadius: "50px", marginLeft: "14px" }}>
+                    <Button style={{ right: "7px" }}>
+                      MX
+                    </Button>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "row", border: "1px solid gray", height: "45px", width: "50px", borderRadius: "50px", marginLeft: "15px" }}>
+                    <Button style={{ right: "7px" }}>
+                      MY
+                    </Button>
+                  </div>
+                </div>
               </Grid>
               <Grid item xs={12} style={GridItemStyle}>
                 <TextField
@@ -484,7 +508,24 @@ const PatternWizard = ({ handleChangepanel,
                   size="small"
                 />
 
+                <div style={{ display: "flex", flexDirection: "row", marginLeft: "23px", }}>
+                  <div style={{ display: "flex", flexDirection: "row", border: "1px solid gray", height: "45px", width: "50px", borderRadius: "50px", marginLeft: "7px" }}>
+                    <Button style={{ right: "7px" }}>
+                      180
+                    </Button>
+                  </div>
 
+                  <div style={{ display: "flex", flexDirection: "row", border: "1px solid gray", height: "45px", width: "50px", borderRadius: "50px", marginLeft: "14px" }}>
+                    <Button style={{ right: "7px" }}>
+                      MX
+                    </Button>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "row", border: "1px solid gray", height: "45px", width: "50px", borderRadius: "50px", marginLeft: "15px" }}>
+                    <Button style={{ right: "7px" }}>
+                      MY
+                    </Button>
+                  </div>
+                </div>
 
               </Grid>
               <Grid item xs={12} style={GridItemStyle}>
@@ -525,15 +566,34 @@ const PatternWizard = ({ handleChangepanel,
                   size="small"
                 />
 
+                <div style={{ display: "flex", flexDirection: "row", marginLeft: "23px", }}>
+                  <div style={{ display: "flex", flexDirection: "row", border: "1px solid gray", height: "45px", width: "50px", borderRadius: "50px", marginLeft: "7px" }}>
+                    <Button style={{ right: "7px" }}
+                     >
+                      180
+                    </Button>
+                  </div>
 
-
+                  <div style={{ display: "flex", flexDirection: "row", border: "1px solid gray", height: "45px", width: "50px", borderRadius: "50px", marginLeft: "14px" }}>
+                    <Button style={{ right: "7px" }}>
+                      MX
+                    </Button>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "row", border: "1px solid gray", height: "45px", width: "50px", borderRadius: "50px", marginLeft: "15px" }}>
+                    <Button style={{ right: "7px" }}
+                      onBlur={(e) => updateSelectionForCases(e, updatePallet)}
+                    >
+                      MY
+                    </Button>
+                  </div>
+                </div>
               </Grid>
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Grid>
 
-      <div className="parent-blur" style={{ zIndex: 5, justifyContent: "center", alignItems: "center", display: circular == "visible" ? "flex" : "none", position: "fixed", width: '100%', height: '100%', marginTop: "-607px", marginLeft: "-840px", opacity: '0.4', backgroundColor: "black" }}>
+      <div className="parent-blur" style={{ zIndex: 5, justifyContent: "center", alignItems: "center", display: circular == "visible" ? "flex" : "none", position: "fixed", width: '100%', height: '100%', marginTop: "-768px", marginLeft: "-840px", opacity: '0.4', backgroundColor: "black" }}>
         <CircularProgress
           style={{
             // backgroundColor: 'yellow',

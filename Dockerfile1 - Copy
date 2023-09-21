@@ -2,8 +2,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0.103 AS build
 WORKDIR /build
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x |  bash -
-RUN apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_12.x |  bash - &&\
+    apt-get install -y nodejs
 
 # copy csproj and restore as distinct layers
 COPY ./*.csproj .
@@ -18,7 +18,7 @@ RUN dotnet ef database update --context ThreedContext
 RUN dotnet dev-certs https --clean
 RUN dotnet dev-certs https
 RUN dotnet dev-certs https --trust
-RUN dotnet publish -c release -o published 
+RUN dotnet publish -c release -o published --no-cache
 
 FROM node:12 AS node-builder
 WORKDIR /node
@@ -30,8 +30,6 @@ RUN npm run-script build
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
 ENV ASPNETCORE_URLS="https://*:443;http://*:80"
 WORKDIR /app
-RUN mkdir /app/pdf
-COPY ./pdf /app/pdf
 RUN mkdir /app/wwwroot
 COPY --from=build /build/published .
 COPY --from=build /build/threed.db .

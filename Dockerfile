@@ -30,6 +30,8 @@ RUN npm run-script build
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
 ENV ASPNETCORE_URLS="https://*:443;http://*:80"
 WORKDIR /app
+RUN mkdir /app/pdf
+COPY ./pdf /app/pdf
 RUN mkdir /app/wwwroot
 COPY --from=build /build/published .
 COPY --from=build /build/threed.db .

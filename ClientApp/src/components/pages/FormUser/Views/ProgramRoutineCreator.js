@@ -63,6 +63,9 @@ const ProgramRoutineCreator = ({
     S_colorA,
     S_colorB,
     showOnFieldsClickGreenRect,
+    showOnFieldsClickOrangeRect,
+    showOnFieldsClickRedRect,
+    showOnFieldsClickAllRect,
     G_casedata,
     S_CasesXYfotGreenRectPRC,
     S_AllAvlNrPosInDropDownList,
@@ -200,7 +203,7 @@ const ProgramRoutineCreator = ({
                                 <TextField
                                     id="outlined-read-only-input"
                                     label=""
-                                    defaultValue="Pre Pos Offset"
+                                    defaultValue={t('prePosOffset')}
                                     margin="dense"
                                     style={PRC_MarginTextStyle}
                                     InputProps={{
@@ -620,7 +623,7 @@ const ProgramRoutineCreator = ({
                                 <TextField
                                     id="outlined-read-only-input"
                                     label=""
-                                    defaultValue="Auto Generate Pre Position"
+                                    defaultValue={t('autoGeneratePrePosition')}
                                     margin="dense" style={{ height: 27, width: "536px", top: "8px" }}
                                     InputProps={{
                                         readOnly: true,
@@ -658,7 +661,7 @@ const ProgramRoutineCreator = ({
                                 <TextField
                                     id="outlined-read-only-input"
                                     label=""
-                                    defaultValue="Enable Manual Selection"
+                                    defaultValue={t('enableManualSelection')}
                                     margin="dense" style={{ height: 27, width: "536px", top: "8px" }}
                                     InputProps={{
                                         readOnly: true,
@@ -690,7 +693,7 @@ const ProgramRoutineCreator = ({
                                             <>
 
                                                 {/* Nr DropDown, Button And Freez CheckBox */}
-                                                <div onClick={(e) => showOnFieldsClickGreenRect(index, G_casedata, e)} style={{ display: 'flex', flexDirection: 'row', backgroundColor: "#f5f5f5" }}>
+                                                <div onClick={(e) => showOnFieldsClickAllRect(index, G_casedata, e)} style={{ display: 'flex', flexDirection: 'row', backgroundColor: "#f5f5f5" }}>
 
                                                     <TextField
                                                         style={{ border: "1px solid white !important", height: "27px", top: "3px", right: "-3px", width: "20%", backgroundColor: "white", paddingLeft: "3px" }}
@@ -746,7 +749,7 @@ const ProgramRoutineCreator = ({
                                                             InputProps={{
                                                                 readOnly: true,
                                                                 disableUnderline: true,
-                                                                style: { fontSize: "15px", left: "4px", top: "4px" }
+                                                                style: { fontSize: "13px", left: "0.5px", top: "4px", width:"100px"}
                                                             }}
                                                         >
                                                         </TextField>
@@ -786,10 +789,11 @@ const ProgramRoutineCreator = ({
                                                             <TextField style={{ height: "27px", width: "60px", marginTop: "4px", left: "90px", backgroundColor: "white" }}
                                                                 id="outlined-read-only-input_ypos_Prc"
                                                                 label=""
-                                                                defaultValue={0}
+                                                                defaultValue=""
                                                                 value={index + 1 > S_CasesXYfotGreenRectPRC.length ? "" : objPRC[index]?.pre_Pos_3Y}
 
                                                                 onChange={(e) => handleValueChangePrepos({ name: "pre_Pos_3Y", value: index + 1, }, e)}
+                                                                onClick={(e) => showOnFieldsClickRedRect(index, G_casedata, e)}
                                                                 onBlur={(e) => callBlurPreposY3PRC(
                                                                     e,
                                                                     index,
@@ -825,11 +829,12 @@ const ProgramRoutineCreator = ({
                                                             <TextField style={{ height: "27px", width: "60px", marginTop: "4px", left: "115px", backgroundColor: "white", }}
                                                                 id="outlined-read-only-input_ypos_Prc"
                                                                 label=""
-                                                                defaultValue={0}
+                                                                defaultValue=""
                                                                 value={index + 1 > S_CasesXYfotGreenRectPRC.length ? "" : objPRC[index]?.pre_Pos_2Y}
 
                                                                 // value={index + 1 > S_CasesXYfotGreenRectPRC.length ? "" : objPRC[index]?.pre_Pos_2Y}
                                                                 onChange={(e) => handleValueChangePrepos({ name: "pre_Pos_2Y", value: index + 1, }, e)}
+                                                                onClick={(e) => showOnFieldsClickOrangeRect(index, G_casedata, e)}
                                                                 onBlur={(e) => callBlurPreposY2PRC(
                                                                     e,
                                                                     index,
@@ -963,10 +968,11 @@ const ProgramRoutineCreator = ({
                                                             <TextField style={{ height: "27px", width: "60px", marginTop: "4px", left: "90px", backgroundColor: "white" }}
                                                                 id="outlined-read-only-input_xpos_Prc"
                                                                 label=""
-                                                                defaultValue={0}
+                                                                defaultValue=""
                                                                 value={index + 1 > S_CasesXYfotGreenRectPRC.length ? "" : objPRC[index]?.pre_Pos_3X}
 
                                                                 onChange={(e) => handleValueChangePrepos({ name: "pre_Pos_3X", value: index + 1, }, e)}
+                                                                onClick={(e) => showOnFieldsClickRedRect(index, G_casedata, e)}
                                                                 onBlur={(e) => callBlurPreposX3PRC(
                                                                     e,
                                                                     index,
@@ -1002,10 +1008,11 @@ const ProgramRoutineCreator = ({
                                                             <TextField style={{ height: "27px", width: "60px", marginTop: "4px", left: "115px", backgroundColor: "white", }}
                                                                 id="outlined-read-only-input_xpos_Prc"
                                                                 label=""
-                                                                defaultValue={0}
+                                                                defaultValue=""
                                                                 value={index + 1 > S_CasesXYfotGreenRectPRC.length ? "" : objPRC[index]?.pre_Pos_2X}
 
                                                                 onChange={(e) => handleValueChangePrepos({ name: "pre_Pos_2X", value: index + 1, }, e)}
+                                                                onClick={(e) => showOnFieldsClickOrangeRect(index, G_casedata, e)}
                                                                 onBlur={(e) => callBlurPreposX2PRC(
                                                                     e,
                                                                     index,
@@ -1137,9 +1144,11 @@ const ProgramRoutineCreator = ({
                                                             <TextField style={{ height: "27px", width: "60px", marginTop: "4px", left: "90px", backgroundColor: "white" }}
                                                                 id="outlined-read-only-input_zpos_Prc"
                                                                 label=""
-                                                                defaultValue={0}
+                                                                defaultValue=""
                                                                 value={index + 1 > S_CasesXYfotGreenRectPRC.length ? "" : objPRC[index]?.pre_Pos_3Z}
+
                                                                 onChange={(e) => handleValueChangePrepos({ name: "pre_Pos_3Z", value: index + 1, }, e)}
+                                                                onClick={(e) => showOnFieldsClickRedRect(index, G_casedata, e)}
                                                                 onBlur={(e) => callBlurPreposZ3PRC(
                                                                     e,
                                                                     index,
@@ -1175,9 +1184,11 @@ const ProgramRoutineCreator = ({
                                                             <TextField style={{ height: "27px", width: "60px", marginTop: "4px", left: "115px", backgroundColor: "white", }}
                                                                 id="outlined-read-only-input_zpos_Prc"
                                                                 label=""
-                                                                defaultValue={0}
+                                                                defaultValue=""
                                                                 value={index + 1 > S_CasesXYfotGreenRectPRC.length ? "" : objPRC[index]?.pre_Pos_2Z}
+
                                                                 onChange={(e) => handleValueChangePrepos({ name: "pre_Pos_2Z", value: index + 1, }, e)}
+                                                                onClick={(e) => showOnFieldsClickOrangeRect(index, G_casedata, e)}
                                                                 onBlur={(e) => callBlurPreposZ2PRC(
                                                                     e,
                                                                     index,

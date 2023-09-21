@@ -719,7 +719,7 @@ class DashboardPage extends React.Component {
   };
 
   charallow(e) {
-    const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\u261D|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF]/;
+    
 
     if (this.casenames.indexOf(e.target.value) > -1) {
       let { t } = this.props;
@@ -737,25 +737,15 @@ class DashboardPage extends React.Component {
       this.setState({
         item: "",
       });
-    }else if(emojiRegex.test(e.target.value) && this.state.doubletoasthandelemoji==false)
-    {    
-        // Clear the textarea content
-        let { t } = this.props;
-        // alert(t('allowedCharacters: _ # -'));
-        toast.error(t('EmojisAreNotAllowed'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
-        this.setState({
-          item: "",
-          // doubletoasthandelemoji: true,     
-        });        
-     } else {
+    }
+    else {
       this.setState({ item: e.target.value.trim() });
       // this.setState({ item: e.target.value.replace(/[^a-zA-Z0-9-#_]/ig, '') });
     }
   }
 
   charallowpallet(e) {
-    const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\u261D|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF]/;
-
+    
     if (this.palletnames.indexOf(e.target.value) > -1) {
       let { t } = this.props;
 
@@ -770,14 +760,6 @@ class DashboardPage extends React.Component {
       let { t } = this.props;
       // alert(t('allowedCharacters: _ # -'));
       toast.error(t('allowedCharacters: _ # -'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
-      this.setState({
-        item1: "",
-      });
-    }else if(emojiRegex.test(e.target.value)&&this.state.doubletoasthandelemoji==false)
-    {      // Clear the textarea content
-      let { t } = this.props;
-      // alert(t('allowedCharacters: _ # -'));
-      toast.error(t('EmojisAreNotAllowed'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
       this.setState({
         item1: "",
       });
@@ -806,6 +788,16 @@ class DashboardPage extends React.Component {
   };
 
   secondEvent = () => {
+    let inputValue = this.state.item;
+    const allowedCharactersRegex = /^[a-zA-Z0-9#_\- ]*$/;
+    if (!allowedCharactersRegex.test(inputValue)) {
+      let { t } = this.props;
+      toast.error(t('EmojisAreNotAllowed'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
+      this.setState({
+        item: "",
+      });
+      return
+    }
     if (this.state.item.trim() != "") {
       this.casenames.push(this.state.item);
       this.state.selectcase = this.state.item;
@@ -898,6 +890,16 @@ class DashboardPage extends React.Component {
   };
 
   addPallet = async () => {
+    let inputValue = this.state.item1;
+    const allowedCharactersRegex = /^[a-zA-Z0-9#_\- ]*$/;
+    if (!allowedCharactersRegex.test(inputValue)) {
+      let { t } = this.props;
+      toast.error(t('EmojisAreNotAllowed'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
+      this.setState({
+        item1: "",
+      });
+      return
+    }
     if (this.state.item1.trim() !== "") {
       // Set the selected pallet name
       this.setState({
@@ -1807,7 +1809,6 @@ class DashboardPage extends React.Component {
   };
 
   handleSelectionRename = (event) => {
-    const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\u261D|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF]/;
     const select = event.target.value;
     if (this.casenames.indexOf(event.target.value) > -1) {
       let { t } = this.props;
@@ -1835,15 +1836,8 @@ class DashboardPage extends React.Component {
           item2: "",
           caseRename: "",
         });
-      }else if(emojiRegex.test(event.target.value))
-      {  
-          let { t } = this.props;  
-        toast.error(('Emojis are not allowed'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
-        this.setState({  
-          item2: "",            
-          caseRename: "",
-        });
-      } else {
+      }
+       else {
         this.setState({ item2: event.target.value });
         // this.setState({ item: e.target.value.replace(/[^a-zA-Z0-9-#_]/ig, '') });
       }
@@ -1856,8 +1850,7 @@ class DashboardPage extends React.Component {
   };
 
   handleSelectionSaveAs = (event) => {
-    const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\u261D|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF]/;
-
+ 
     const select = event.target.value;
     this.setState({
       caseSave: select,
@@ -1874,15 +1867,8 @@ class DashboardPage extends React.Component {
         item3: "",
         caseSave: "",
       });
-    } else if(emojiRegex.test(event.target.value)&&this.state.doubletoasthandelemoji==false)
-    {  let { t } = this.props;
-      // alert(t('allowedCharacters: _ # -'));
-      toast.error(t('EmojisAreNotAllowed'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
-      this.setState({
-        item3: "",
-        caseSave: "",
-      });
-    }
+    } 
+   
     else {
       this.setState({ item3: event.target.value });
     }
@@ -1979,6 +1965,16 @@ class DashboardPage extends React.Component {
         autoClose: 3000,
       });
     }
+    const allowedCharactersRegex = /^[a-zA-Z0-9#_\- ]*$/;
+    if (!allowedCharactersRegex.test(caseSave)) {
+      let { t } = this.props;
+      toast.error(t('EmojisAreNotAllowed'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
+      this.setState({
+        caseSave: "",
+      });
+      return
+    }
+
     await axios
       .post(`/threed/savecase/${name}`, { Name: caseSave })
       .then((response) => {
@@ -2040,6 +2036,17 @@ class DashboardPage extends React.Component {
         autoClose: 3000,
       });
     }
+    const allowedCharactersRegex = /^[a-zA-Z0-9#_\- ]*$/;
+    if (!allowedCharactersRegex.test(caseRename)) {
+      let { t } = this.props;
+      toast.error(t('EmojisAreNotAllowed'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
+      this.setState({
+        caseRename: "",
+      });
+      return
+    }
+    
+    
 
     await axios
       .put(`/threed/renamecase/${name}`, { Name: caseRename })
@@ -2112,6 +2119,10 @@ class DashboardPage extends React.Component {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
       });
+    }
+    const allowedCharactersRegex = /^[a-zA-Z0-9#_\- ]*$/;
+    if (!allowedCharactersRegex.test(PalletRename)) {
+      toast.error(t('EmojisAreNotAllowed'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
     }
     if (id == 462) {
       let { t } = this.props;
@@ -2356,6 +2367,15 @@ class DashboardPage extends React.Component {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
       });
+    }
+    const allowedCharactersRegex = /^[a-zA-Z0-9#_\- ]*$/;
+    if (!allowedCharactersRegex.test(PalletName)) {
+      let { t } = this.props;
+      toast.error(t('EmojisAreNotAllowed'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
+      this.setState({
+        PalletName: "",
+      });
+      return
     }
     axios
       .post(`/threed/savepallet/${id}`, { palletName: PalletName.trim() })
@@ -3020,7 +3040,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3031,7 +3051,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3042,7 +3062,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3053,7 +3073,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3064,7 +3084,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3077,7 +3097,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3088,7 +3108,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3101,7 +3121,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3112,7 +3132,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3125,7 +3145,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3138,7 +3158,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3149,7 +3169,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3160,7 +3180,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3171,7 +3191,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3184,7 +3204,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3195,7 +3215,7 @@ class DashboardPage extends React.Component {
                                   style={{
                                     fontFamily: "Roboto",
                                     fontSize: 12,
-                                    width: 190,
+                                    // width: 190,
                                     height: 46,
                                   }}
                                   align="right"
@@ -3462,7 +3482,7 @@ class DashboardPage extends React.Component {
                                     style={{
                                       fontFamily: "Roboto",
                                       fontSize: 12,
-                                      width: 190,
+                                      // width: 190,
                                       height: 46,
                                     }}
                                     align="right"
@@ -3473,7 +3493,7 @@ class DashboardPage extends React.Component {
                                     style={{
                                       fontFamily: "Roboto",
                                       fontSize: 12,
-                                      width: 190,
+                                      // width: 190,
                                       height: 46,
                                     }}
                                     align="right"
@@ -3484,7 +3504,7 @@ class DashboardPage extends React.Component {
                                     style={{
                                       fontFamily: "Roboto",
                                       fontSize: 12,
-                                      width: 190,
+                                      // width: 190,
                                       height: 46,
                                     }}
                                     align="right"
@@ -3495,7 +3515,7 @@ class DashboardPage extends React.Component {
                                     style={{
                                       fontFamily: "Roboto",
                                       fontSize: 12,
-                                      width: 190,
+                                      // width: 190,
                                       height: 46,
                                     }}
                                     align="right"
@@ -3506,7 +3526,7 @@ class DashboardPage extends React.Component {
                                     style={{
                                       fontFamily: "Roboto",
                                       fontSize: 12,
-                                      width: 190,
+                                      // width: 190,
                                       height: 46,
                                     }}
                                     align="right"
@@ -3517,7 +3537,7 @@ class DashboardPage extends React.Component {
                                     style={{
                                       fontFamily: "Roboto",
                                       fontSize: 12,
-                                      width: 190,
+                                      // width: 190,
                                       height: 46,
                                     }}
                                     align="right"
@@ -3528,7 +3548,7 @@ class DashboardPage extends React.Component {
                                 style={{
                                   fontFamily: "Roboto",
                                   fontSize: 12,
-                                  width: 190,
+                                  // width: 190,
                                   height: 46,
                                 }}
                                 align="right"
@@ -3541,7 +3561,7 @@ class DashboardPage extends React.Component {
                                 style={{
                                   fontFamily: "Roboto",
                                   fontSize: 12,
-                                  width: 190,
+                                  // width: 190,
                                   height: 46,
                                 }}
                                 align="right"
@@ -3552,7 +3572,7 @@ class DashboardPage extends React.Component {
                                 style={{
                                   fontFamily: "Roboto",
                                   fontSize: 12,
-                                  width: 190,
+                                  // width: 190,
                                   height: 46,
                                 }}
                                 align="right"
@@ -3565,7 +3585,7 @@ class DashboardPage extends React.Component {
                                 style={{
                                   fontFamily: "Roboto",
                                   fontSize: 12,
-                                  width: 190,
+                                  // width: 190,
                                   height: 46,
                                 }}
                                 align="right"
@@ -3578,7 +3598,7 @@ class DashboardPage extends React.Component {
                                 style={{
                                   fontFamily: "Roboto",
                                   fontSize: 12,
-                                  width: 190,
+                                  // width: 190,
                                   height: 46,
                                 }}
                                 align="right"
@@ -3589,7 +3609,7 @@ class DashboardPage extends React.Component {
                                 style={{
                                   fontFamily: "Roboto",
                                   fontSize: 12,
-                                  width: 190,
+                                  // width: 190,
                                   height: 46,
                                 }}
                                 align="right"
@@ -3600,7 +3620,7 @@ class DashboardPage extends React.Component {
                                 style={{
                                   fontFamily: "Roboto",
                                   fontSize: 12,
-                                  width: 190,
+                                  // width: 190,
                                   height: 46,
                                 }}
                                 align="right"
@@ -3611,7 +3631,7 @@ class DashboardPage extends React.Component {
                                 style={{
                                   fontFamily: "Roboto",
                                   fontSize: 12,
-                                  width: 190,
+                                  // width: 190,
                                   height: 46,
                                 }}
                                 align="right"
@@ -3624,7 +3644,7 @@ class DashboardPage extends React.Component {
                                 style={{
                                   fontFamily: "Roboto",
                                   fontSize: 12,
-                                  width: 190,
+                                  // width: 190,
                                   height: 46,
                                 }}
                                 align="right"
@@ -3635,7 +3655,7 @@ class DashboardPage extends React.Component {
                                 style={{
                                   fontFamily: "Roboto",
                                   fontSize: 12,
-                                  width: 190,
+                                  // width: 190,
                                   height: 46,
                                 }}
                                 align="right"

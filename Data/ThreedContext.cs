@@ -167,6 +167,11 @@ namespace threed.Data
 
                 entity.Property(e => e.import_data_filename).HasColumnName("import_data_filename");
 
+                entity.Property(e => e.IntermediateLayerWidth).HasColumnName("Intermediate_Layer_Width");
+
+                entity.Property(e => e.IntermediateLayerLength).HasColumnName("Intermediate_Layer_Length");
+                entity.Property(e => e.working_area_1_Height_Z_Direction).HasColumnName("working_area_1_Height_Z_Direction");
+
             
             });
 

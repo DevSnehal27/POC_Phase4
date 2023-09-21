@@ -1,0 +1,39 @@
+UP3D-886 - In simulation cases are going little bit outside of the pallet in canvas. - Bikram
+UP3D-904 - In pattern wizard labels are overlapping. - Bikram
+UP3D-912 - After clicking "Auto Generate Case Position," the nr position is set, but the end position does not appear.- Bikram
+UP3D-913 - In Prc red(3rd positon), orange(2nd position) not showing. - Bikram
+UP3D-916 - In Prc Auto Generate Pre Position and Enable Manual Selection not coming in german lang.. - Bikram
+UP3D-928 - In PRC there 12 cases are showing on a pallet but in ui design after #9 #1, #1, #1 is showing. - Bikram
+UP3D-869 - If the preposition is 0,0,0 the simulation runs very fast. Wait time after each case. - Bikram
+
+UP3D-923 - It is showing negative value in preety table in mass value. - Supriya
+UP3D-890 - case dimensions w= 300 l= 400 h=450 In pattern wizard and select label and (horizontal mass distribution) variants are overlapping(W-410 , L-310,H-310 pallet size-800x600). - Supriya
+UP3D-915 - In basic parameter pallet2 when user is adding in working area 2 length same as it is value is coming in working area 2 height. -Supriya
+UP3D-918 - In Design parameter Intermediate Layer width and Intermediate Layer height not coming in german lang. - Supriya
+UP3D-919 - In Basic parameter Working area 1 Height and Working area 2 Height not coming in german lang. - Supriya
+
+UP3D-908 - In pattern wizard the side variants going out of canvas. - Priya
+UP3D-911 - In pattern wizard symbol in design document but not in application. - Priya
+UP3D-921 - In pattern wizard while select/unselect horizontal mass distribution remaining Mirror Holizontal,mirror vertical,rotate 180 automatically  selected. - Priya
+UP3D-925 - In German language the pattern wizard mirror horizontal,mirror vertical,rotate 180 not coming. - Priya
+         - In "Pattern Wizard" both german and english language Rule - Horizontal Symmetric Mass Distribution and Rule - Vertical Symmetric Mass Distribution are not visible properly. - priya
+UP3D-940 - In pattern wizard design document arrows are not there need to place or remove that arrows in application(doubt). - Priya
+UP3D-930 - In pattern wizard click on arrow carousel little bit going outside the canvas. - Priya
+
+
+
+
+
+
+Files
+
+1 PaletteDesigner.js
+2 BlocksLevel.js
+3 ProgramRoutinecreator.js
+4 BasicParameter.js
+5 bpController.js
+6 CaseData.js 
+7 local folder - de and en
+8 Designparameter.js
+9 UICommonStyles.js
+

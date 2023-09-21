@@ -639,17 +639,17 @@ namespace reactnet3.Controllers
                     doc.Add(createdByParagraph);
 
                     // Add creation date
-                    string creationDate = "Creation Date: " + palletPdfData.CreatedDate;
+                    string creationDate = translations["CreatedDateTime"]+": " + palletPdfData.CreatedDate;
                     Paragraph creationDateParagraph = new Paragraph(creationDate, paragraphFont);
                     doc.Add(creationDateParagraph);
 
                     // Add updated Date
-                    string updatedDate = "Last Updated: " + palletPdfData.UpdatedDate;
+                    string updatedDate = translations["LastUpdated"]+": " + palletPdfData.UpdatedDate;
                     Paragraph updatedParagraph = new Paragraph(updatedDate, paragraphFont);
                     doc.Add(updatedParagraph);
 
                     // Add Printed Date
-                    string PrintedDate = "Printed Date: " +  DateTime.Now.ToString();
+                    string PrintedDate = translations["PrintedDate"]+": " +  DateTime.Now.ToString();
                     Paragraph printedParagraph = new Paragraph(PrintedDate, paragraphFont);
                     doc.Add(printedParagraph);
 
@@ -689,7 +689,7 @@ namespace reactnet3.Controllers
                     var caseDescriptionData = casepdf[1];
                     
                     // Add case description heading
-                    Paragraph caseDescriptionHeading = new Paragraph("Case Description:", subHeadingFont);
+                    Paragraph caseDescriptionHeading = new Paragraph(translations["CaseDescription"], subHeadingFont);
                     caseDescriptionHeading.SpacingAfter = 50f;
                     doc.Add(caseDescriptionHeading);
                     
@@ -705,7 +705,7 @@ namespace reactnet3.Controllers
                             //table.DefaultCell.HorizontalAlignment = Element.ALIGN_RIGHT;
                     
                     // Add row 1
-                            PdfPCell cellHeight = new PdfPCell(new Phrase("Height", tableSubHeadingFont));
+                            PdfPCell cellHeight = new PdfPCell(new Phrase(translations["height"], tableSubHeadingFont));
                             cellHeight.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellHeight.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellHeight.FixedHeight = 18f;
@@ -724,7 +724,7 @@ namespace reactnet3.Controllers
 
                             // Add row 2
 
-                            PdfPCell cellLength = new PdfPCell(new Phrase("Length", tableSubHeadingFont));
+                            PdfPCell cellLength = new PdfPCell(new Phrase(translations["length"], tableSubHeadingFont));
                             cellLength.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellLength.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellLength.FixedHeight = 18f;
@@ -742,7 +742,7 @@ namespace reactnet3.Controllers
                             // table.AddCell(new PdfPCell(new Phrase("mm", paragraphFont)));
 
                             // Add row 3
-                             PdfPCell cellWidth = new PdfPCell(new Phrase("Width", tableSubHeadingFont));
+                             PdfPCell cellWidth = new PdfPCell(new Phrase(translations["width"], tableSubHeadingFont));
                             cellWidth.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellWidth.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellWidth.FixedHeight = 18f;
@@ -755,7 +755,7 @@ namespace reactnet3.Controllers
                             table.AddCell(cellHeightUnit);
 
                             // Add row 4
-                            PdfPCell cellMass = new PdfPCell(new Phrase("Mass", tableSubHeadingFont));
+                            PdfPCell cellMass = new PdfPCell(new Phrase(translations["Mass"], tableSubHeadingFont));
                             cellMass.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellMass.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellMass.FixedHeight = 18f;
@@ -1130,7 +1130,7 @@ namespace reactnet3.Controllers
 
                         if (labelCount == 0)
                         {
-                        Paragraph labelDescriptionHeading = new Paragraph("Label Description:", subHeadingFont);
+                        Paragraph labelDescriptionHeading = new Paragraph(translations["LabelDescription"], subHeadingFont);
                         // labelDescriptionHeading.SpacingAfter = 30f;
                         doc.Add(labelDescriptionHeading);
                         }
@@ -1158,7 +1158,7 @@ namespace reactnet3.Controllers
                     table.SetWidths(columnWidths);
                     table.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
 
-                            PdfPCell cellLabel = new PdfPCell(new Phrase("Label", tableSubHeadingFont));
+                            PdfPCell cellLabel = new PdfPCell(new Phrase(translations["Label"], tableSubHeadingFont));
                             cellLabel.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellLabel.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellLabel.FixedHeight = 18f;
@@ -1179,7 +1179,7 @@ namespace reactnet3.Controllers
                             // table.AddCell(new PdfPCell(new Phrase(labelCount.ToString(), paragraphFont)));
                             // table.AddCell(new PdfPCell(new Phrase("  ", paragraphFont)));
                             // Add row 2
-                            PdfPCell cellLabelname = new PdfPCell(new Phrase("Label Name", tableSubHeadingFont));
+                            PdfPCell cellLabelname = new PdfPCell(new Phrase(translations["labelName"], tableSubHeadingFont));
                             cellLabelname.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellLabelname.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellLabelname.FixedHeight = 18f;
@@ -1195,7 +1195,7 @@ namespace reactnet3.Controllers
                             // table.AddCell(new PdfPCell(new Phrase(currentCasePdf.Labelname.ToString(), paragraphFont)));
                             // table.AddCell(new PdfPCell(new Phrase(" ", paragraphFont)));
                             // Add row 3
-                             PdfPCell Location = new PdfPCell(new Phrase("Location", tableSubHeadingFont));
+                             PdfPCell Location = new PdfPCell(new Phrase(translations["Location"], tableSubHeadingFont));
                             Location.HorizontalAlignment = Element.ALIGN_CENTER;
                             Location.VerticalAlignment = Element.ALIGN_MIDDLE;
                             Location.FixedHeight = 18f;
@@ -1211,7 +1211,7 @@ namespace reactnet3.Controllers
                             // table.AddCell(new PdfPCell(new Phrase(currentCasePdf.Typename.ToString(), paragraphFont)));
                             // table.AddCell(new PdfPCell(new Phrase(" ", paragraphFont)));
                             // Add row 4
-                             PdfPCell LabelWidth = new PdfPCell(new Phrase("Width", tableSubHeadingFont));
+                             PdfPCell LabelWidth = new PdfPCell(new Phrase(translations["width"], tableSubHeadingFont));
                             LabelWidth.HorizontalAlignment = Element.ALIGN_CENTER;
                             LabelWidth.VerticalAlignment = Element.ALIGN_MIDDLE;
                             LabelWidth.FixedHeight = 18f;
@@ -1232,7 +1232,7 @@ namespace reactnet3.Controllers
                             // table.AddCell(new PdfPCell(new Phrase(currentCasePdf.Labelwidth.ToString(), paragraphFont)));
                             // table.AddCell(new PdfPCell(new Phrase("mm", paragraphFont)));
                             // Add row 5
-                            PdfPCell LabelLength = new PdfPCell(new Phrase("Length", tableSubHeadingFont));
+                            PdfPCell LabelLength = new PdfPCell(new Phrase(translations["length"], tableSubHeadingFont));
                             LabelLength.HorizontalAlignment = Element.ALIGN_CENTER;
                             LabelLength.VerticalAlignment = Element.ALIGN_MIDDLE;
                             LabelLength.FixedHeight = 18f;
@@ -1248,7 +1248,7 @@ namespace reactnet3.Controllers
                             // table.AddCell(new PdfPCell(new Phrase(currentCasePdf.Labelheight.ToString(), paragraphFont)));
                             // table.AddCell(new PdfPCell(new Phrase("mm ", paragraphFont)));
                             // Add row 6
-                            PdfPCell LabelPositionA = new PdfPCell(new Phrase("Position A", tableSubHeadingFont));
+                            PdfPCell LabelPositionA = new PdfPCell(new Phrase(translations["PositionA"], tableSubHeadingFont));
                             LabelPositionA.HorizontalAlignment = Element.ALIGN_CENTER;
                             LabelPositionA.VerticalAlignment = Element.ALIGN_MIDDLE;
                             LabelPositionA.FixedHeight = 18f;
@@ -1264,7 +1264,7 @@ namespace reactnet3.Controllers
                             // table.AddCell(new PdfPCell(new Phrase(currentCasePdf.Labelx.ToString(), paragraphFont)));
                             // table.AddCell(new PdfPCell(new Phrase("mm", paragraphFont)));
                             // Add row 7
-                            PdfPCell LabelPositionB = new PdfPCell(new Phrase("Position B", tableSubHeadingFont));
+                            PdfPCell LabelPositionB = new PdfPCell(new Phrase(translations["PositionB"], tableSubHeadingFont));
                             LabelPositionB.HorizontalAlignment = Element.ALIGN_CENTER;
                             LabelPositionB.VerticalAlignment = Element.ALIGN_MIDDLE;
                             LabelPositionB.FixedHeight = 18f;
@@ -1288,7 +1288,7 @@ namespace reactnet3.Controllers
                     }
 
                         doc.NewPage();
-                        Paragraph palleteDescriptionHeading = new Paragraph("Palette Description:", subHeadingFont);
+                        Paragraph palleteDescriptionHeading = new Paragraph(translations["PaletteDescription"], subHeadingFont);
                         palleteDescriptionHeading.SpacingAfter = 50f;
                         doc.Add(palleteDescriptionHeading);
                         // Create table
@@ -1304,7 +1304,7 @@ table1.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
 
 
                         // Add row 1
-                        PdfPCell cellPalletType = new PdfPCell(new Phrase("Pallet Type", tableSubHeadingFont));
+                        PdfPCell cellPalletType = new PdfPCell(new Phrase(translations["palletType"], tableSubHeadingFont));
                             cellPalletType.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellPalletType.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellPalletType.FixedHeight = 18f;
@@ -1319,7 +1319,7 @@ table1.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         // table1.AddCell(new PdfPCell(new Phrase("Pallet Type", tableSubHeadingFont)));
                         // table1.AddCell(new PdfPCell(new Phrase(palletPdfData.PalletType, paragraphFont)));
                         // Add row 2
-                         PdfPCell cellNumberofLayers = new PdfPCell(new Phrase("Number of Layers", tableSubHeadingFont));
+                         PdfPCell cellNumberofLayers = new PdfPCell(new Phrase(translations["numberOfLayers"], tableSubHeadingFont));
                             cellNumberofLayers.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellNumberofLayers.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellNumberofLayers.FixedHeight = 18f;
@@ -1334,7 +1334,7 @@ table1.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         // table1.AddCell(new PdfPCell(new Phrase("Number of Layers", tableSubHeadingFont)));
                         // table1.AddCell(new PdfPCell(new Phrase(palletPdfData.NoOfLayers.ToString(), paragraphFont)));
                         // Add row 3
-                         PdfPCell cellnoSchemaA = new PdfPCell(new Phrase("Number of Cases Schema A", tableSubHeadingFont));
+                         PdfPCell cellnoSchemaA = new PdfPCell(new Phrase(translations["numberOfCasesSchemaA"], tableSubHeadingFont));
                             cellnoSchemaA.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellnoSchemaA.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellnoSchemaA.FixedHeight = 18f;
@@ -1349,7 +1349,7 @@ table1.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         // table1.AddCell(new PdfPCell(new Phrase("Number of Cases Schema A", tableSubHeadingFont)));
                         // table1.AddCell(new PdfPCell(new Phrase(noSchemaA, paragraphFont)));
                         // Add row 4
-                        PdfPCell cellLayersSchema_A = new PdfPCell(new Phrase("Layers Schema A", tableSubHeadingFont));
+                        PdfPCell cellLayersSchema_A = new PdfPCell(new Phrase(translations["LayersSchemaA"], tableSubHeadingFont));
                             cellLayersSchema_A.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellLayersSchema_A.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellLayersSchema_A.FixedHeight = 18f;
@@ -1364,7 +1364,7 @@ table1.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         // table1.AddCell(new PdfPCell(new Phrase("Layers Schema A", tableSubHeadingFont)));
                         // table1.AddCell(new PdfPCell(new Phrase(LayersSchema_A, paragraphFont)));
                         // Add row 5
-                         PdfPCell cellnoSchemaB = new PdfPCell(new Phrase("Number of Cases Schema B", tableSubHeadingFont));
+                         PdfPCell cellnoSchemaB = new PdfPCell(new Phrase(translations["numberOfCasesSchemaB"], tableSubHeadingFont));
                             cellnoSchemaB.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellnoSchemaB.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellnoSchemaB.FixedHeight = 18f;
@@ -1378,7 +1378,7 @@ table1.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         // table1.AddCell(new PdfPCell(new Phrase("Number of Cases Schema B", tableSubHeadingFont)));
                         // table1.AddCell(new PdfPCell(new Phrase(noSchemaB, paragraphFont)));
                         // Add row 6
-                        PdfPCell cellLayersSchema_B = new PdfPCell(new Phrase("Layers Schema B", tableSubHeadingFont));
+                        PdfPCell cellLayersSchema_B = new PdfPCell(new Phrase(translations["LayersSchemaB"], tableSubHeadingFont));
                             cellLayersSchema_B.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellLayersSchema_B.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellLayersSchema_B.FixedHeight = 18f;
@@ -1393,7 +1393,7 @@ table1.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         // table1.AddCell(new PdfPCell(new Phrase("Layers Schema B", tableSubHeadingFont)));
                         // table1.AddCell(new PdfPCell(new Phrase(LayersSchema_B, paragraphFont)));
                         // Add row 7
-                         PdfPCell cellnoSchemaC = new PdfPCell(new Phrase("Number of Cases Schema C", tableSubHeadingFont));
+                         PdfPCell cellnoSchemaC = new PdfPCell(new Phrase(translations["numberOfCasesSchemaC"], tableSubHeadingFont));
                             cellnoSchemaC.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellnoSchemaC.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellnoSchemaC.FixedHeight = 18f;
@@ -1408,7 +1408,7 @@ table1.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
                         // table1.AddCell(new PdfPCell(new Phrase("Number of Cases Schema C", tableSubHeadingFont)));
                         // table1.AddCell(new PdfPCell(new Phrase(noSchemaC, paragraphFont)));
                         // Add row 8
-                         PdfPCell cellLayersSchema_C = new PdfPCell(new Phrase("Layers Schema C", tableSubHeadingFont));
+                         PdfPCell cellLayersSchema_C = new PdfPCell(new Phrase(translations["LayersSchemaC"], tableSubHeadingFont));
                             cellLayersSchema_C.HorizontalAlignment = Element.ALIGN_CENTER;
                             cellLayersSchema_C.VerticalAlignment = Element.ALIGN_MIDDLE;
                             cellLayersSchema_C.FixedHeight = 18f;
@@ -1492,15 +1492,15 @@ table1.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
 
                             canvas.SetColorFill(brushColor);
                             canvas.BeginText();
-                            canvas.ShowTextAligned(Element.ALIGN_LEFT, "Schema A:", 30, 450, 0);
+                            canvas.ShowTextAligned(Element.ALIGN_LEFT, translations["schemaA"], 30, 450, 0);
                             canvas.EndText();
                             // for image2
                             canvas.BeginText();
-                            canvas.ShowTextAligned(Element.ALIGN_CENTER, "Schema B:", 290, 450, 0);
+                            canvas.ShowTextAligned(Element.ALIGN_CENTER, translations["schemaB"], 290, 450, 0);
                             canvas.EndText();
                             // string img3 = imageFilePaths[2];
                             canvas.BeginText();
-                            canvas.ShowTextAligned(Element.ALIGN_CENTER, "Schema C:", 510, 450, 0);
+                            canvas.ShowTextAligned(Element.ALIGN_CENTER, translations["schemaC"], 510, 450, 0);
                             canvas.EndText();
                      for(int k=0;k<files.Count;k++)
                 {
@@ -3186,6 +3186,8 @@ public async Task<ActionResult<string>> getPalletContents(string fileName)
                 paletteData.Firstcasepal2 =  pallet.Firstcasepal2;
                 paletteData.PalletType =  pallet.PalletType;
                 paletteData.IntermediateLayerType =  pallet.IntermediateLayerType;
+                paletteData.IntermediateLayerWidth =  pallet.IntermediateLayerWidth;
+                paletteData.IntermediateLayerLength =  pallet.IntermediateLayerLength;
                 paletteData.CaseType =  pallet.CaseType;
                 paletteData.NoOfLayers =  pallet.NoOfLayers;
                 paletteData.CasesSchemaA =  pallet.CasesSchemaA;
@@ -3206,6 +3208,7 @@ public async Task<ActionResult<string>> getPalletContents(string fileName)
                 paletteData.Working_area_2_Length_Y_Direction =  pallet.Working_area_2_Length_Y_Direction;
                 paletteData.Working_area_2_Offset_X_Direction =  pallet.Working_area_2_Offset_X_Direction;
                 paletteData.Working_area_2_Offset_Y_Direction =  pallet.Working_area_2_Offset_Y_Direction;
+                paletteData.working_area_1_Height_Z_Direction =  pallet.working_area_1_Height_Z_Direction;
                 paletteData.intermediate_Layer =  pallet.intermediate_Layer;
                 paletteData.case_position = pallet.case_position;
                 paletteData.IsActive =  pallet.IsActive;

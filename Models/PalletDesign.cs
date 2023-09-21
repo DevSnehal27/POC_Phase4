@@ -23,8 +23,11 @@ namespace threed.Models
         public int? Working_area_2_Length_Y_Direction { get; set; }
         public int? Working_area_2_Offset_X_Direction { get; set; }
         public int? Working_area_2_Offset_Y_Direction { get; set; }
+        public int? working_area_1_Height_Z_Direction { get; set; }
         public string PalletType { get; set; }
         public int? IntermediateLayerType { get; set; }
+        public int? IntermediateLayerWidth { get; set; }
+        public int? IntermediateLayerLength { get; set; }
         public string CaseType { get; set; }
         public long? NoOfLayers { get; set; }
         public long? CasesSchemaA { get; set; }

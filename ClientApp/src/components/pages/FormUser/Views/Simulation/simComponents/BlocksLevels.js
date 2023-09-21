@@ -103,6 +103,9 @@ const BlocksLevels = (props) => {
       let newHeigthY = 0;
       let startPositionsA = startA.map((startPos, index) => {
         newHeigthY = (startPos.y + (props.Case_Height * (layer.layerSequence - 1)))
+        if(props.simCasesPositionsForSchemaA[index].pre_Pos_Z == 0){
+          props.simCasesPositionsForSchemaA[index].pre_Pos_Z = 1
+        }
         const object = {
           ...startPos,
           x: (startPos.x + map((props.simCasesPositionsForSchemaA[index].pre_Pos_Y), 0, 1400, 0, 2.98)),
@@ -121,6 +124,9 @@ const BlocksLevels = (props) => {
       let newHeigthY = 0;
       let startPositionsB = startB.map((startPos, index) => {
         newHeigthY = (startPos.y + (props.Case_Height * (layer.layerSequence - 1)))
+        if(props.simCasesPositionsForSchemaB[index].pre_Pos_Z == 0){
+          props.simCasesPositionsForSchemaB[index].pre_Pos_Z = 1
+        }
         const object = {
           ...startPos,
           x: (startPos.x + map((props.simCasesPositionsForSchemaB[index].pre_Pos_Y), 0, 1400, 0, 2.98)),
@@ -140,6 +146,9 @@ const BlocksLevels = (props) => {
       let newHeigthY = 0;
       let startPositionsC = startC.map((startPos, index) => {
         newHeigthY = (startPos.y + (props.Case_Height * (layer.layerSequence - 1)))
+        if(props.simCasesPositionsForSchemaC[index].pre_Pos_Z == 0){
+          props.simCasesPositionsForSchemaC[index].pre_Pos_Z = 1
+        }
         const object = {
           ...startPos,
           x: (startPos.x + map((props.simCasesPositionsForSchemaC[index].pre_Pos_Y), 0, 1400, 0, 2.98)),
@@ -1296,7 +1305,7 @@ const BlocksLevels = (props) => {
                   // main case summary
                   <mesh rotation={end[i].intermediatelayer == true ? [0, 0, 0] : [0, caseValue.rotation == -1 ? 0 : (caseValue.orientation == "Width" ? -angleRadians(caseValue.rotation) : -angleRadians(caseValue.rotation - 90)), 0]} visible={caseVisibleA[i]} ref={cubeMesh[i]}
                     position={[end[i].x, end[i].y, end[i].z]} castShadow receiveShadow>
-                    <boxGeometry attach="geometry" args={end[i].intermediatelayer == true ? [props.Pallet_Width, props.intermediate_Layer_Type, props.Pallet_Length] : [caseValue.orientation == "Width" ? props.Case_Width : props.Case_Length, props.Case_Height, caseValue.orientation == "Length" ? props.Case_Width : props.Case_Length]} />
+                    <boxGeometry attach="geometry" args={end[i].intermediatelayer == true ? [props.intermediate_Layer_Type_Width, props.intermediate_Layer_Type, props.intermediate_Layer_Type_Length] : [caseValue.orientation == "Width" ? props.Case_Width : props.Case_Length, props.Case_Height, caseValue.orientation == "Length" ? props.Case_Width : props.Case_Length]} />
                     <meshStandardMaterial map={start[i].intermediatelayer == true ? intermediateLayerTex : texture1} attach="material" color={start[i].intermediatelayer == true ? "#808080" : "#c7a887"} />
 
                     {/* label for back */}

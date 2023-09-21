@@ -1,5 +1,6 @@
 var color1 = "#f5f5f5";
 var color2 = "#E8E7DE";
+const threedwidth = 791;
 
 export const containerGridstyle = {
   display: "flex", flexDirection: "row", padding: 0,
@@ -11,7 +12,7 @@ export const GridTopStyle = {
   marginTop: "7px"
 }
 export const TextFieldStyle = {
-  bottom: "1px", top: "-42px", height: "27px", left: "220px", width: "58.7%", border: "1px solid white !important", backgroundColor: "white",
+  bottom: "1px", top: "-42px", draggable :"false", height: "27px", left: "220px", width: "58.7%", border: "1px solid white !important", backgroundColor: "white",
 }
 export const AddTextflied = {
   bottom: "1px",  top: "-41px", height: "27px", left: "220px", width: "60.2%", backgroundColor: "white",border: "1px solid white !important",
@@ -71,7 +72,7 @@ export const containerGriddStyle = {
 }
 
 export const containerMarginStyle = {
-  margin: "10px",
+  margin: "10px", display:"flex", flexDirection:"row", width: threedwidth
 }
 
 export const buttonStyle ={
@@ -83,7 +84,7 @@ export const GridContainerStyle = {
 }
 
 export const DivPFMarginStyle = {
-  marginLeft: "-25px", width: "255px", height: "46px", backgroundColor: color2, 
+  marginLeft: "-25px", width: "255px", height: "46px", backgroundColor: color2, display:"flex", flexDirection:"row",
 }
 export const ExpansionPanelStyle = {
   boxShadow: "none", width: "512px", backgroundColor: "#f5f5f5"
@@ -194,10 +195,10 @@ export const outside_labelpriorityStyle = {
   border: "1px solid white !important", top: "9px", height: "27px important", left: "29px", padding: "0px", margin: "0px", width: "42.6%"
 }
 export const TextFieldSchmaStyle ={
-  border: "1px solid white !important", backgroundColor: "white", margin: "0px", padding: "0px", left: "138px", height: "27px", top: "11px", width: "29%"
+  border: "1px solid white !important", backgroundColor: "white", margin: "0px", padding: "0px", left: "-6px", height: "27px", top: "11px", width: "16%"
 }
 export const PatternTextfliedsNamesRur = {
-  fontSize: 12, left: "10px", bottom: "2px", width: "140%", top: "5px", padding: 1 
+  fontSize: 12, left: "10px", bottom: "2px", width: "100%", top: "5px", padding: 1 
 }
 export const PatternTextFieldInputProps = {
   color: "black", fontSize: "12px", top: "3px"

@@ -18,8 +18,8 @@ import {
 import {
     updateSelectionPal2,
     firstCase12OnChange, updateSelectionCase1, updateSelectionCase2,
-    callBlurFor_WorkingareaX, callBlurFor_WorkingareaY, callBlurFor_WorkingareaoffsetX, callBlurFor_WorkingareaoffsetY,callBlurFor_WorkingareaZ
-    , callBlurFor_Workingareafor2X, callBlurFor_Workingareafor2Y, callBlurFor_WorkingareaoffsetXfor2, callBlurFor_WorkingareaoffsetYfor2
+    callBlurFor_WorkingareaX, callBlurFor_WorkingareaY, callBlurFor_WorkingareaoffsetX, callBlurFor_WorkingareaoffsetY, callBlurFor_WorkingareaZ
+    , callBlurFor_Workingareafor2X, callBlurFor_Workingareafor2Y, callBlurFor_WorkingareaZfor2, callBlurFor_WorkingareaoffsetXfor2, callBlurFor_WorkingareaoffsetYfor2
 } from '../Controller/bpController';
 
 
@@ -148,6 +148,15 @@ const BasicParameter = ({ handleChangepanel,
     set_WA_1_Offset_Y_Dir,
     setErrorWorkingaraeaoffsetLength,
     setErrorHelperForWorkingareaoffsetLenght1,
+
+    //Height 2
+    errorWorkingaraeaHeightfor2,
+    errorHelperForWorkingareaHeightfor2,
+    S_WA_2_Height_Z_Dir,
+    G_WA_2_Height_Z_Dir,
+    set_WA_2_Height_Z_Dir,
+    setErrorWorkingaraeaHeightfor2,
+    setErrorHelperForWorkingareaHeightfor2,
 
 
     G_WA_2_width_X_Dir,
@@ -975,22 +984,21 @@ const BasicParameter = ({ handleChangepanel,
                                 <TextField
                                     style={Basic_WA_TextStyle}
                                     id="WA2_length"
-                                    error={errorWorkingaraeaLengthfor2}
-                                    helperText={errorHelperForWorkingareaLengthfor2}
+                                    error={errorWorkingaraeaHeightfor2}
+                                    helperText={errorHelperForWorkingareaHeightfor2}
                                     type="number"
                                     margin="dense"
                                     disabled={enablefor1 || setS_role === "regular"}
-
-                                    value={S_WA_2_Length_Y_Dir}
-                                    onChange={handleSelection("working_area_2_Length_Y_Direction")}
-                                    onBlur={(e) => callBlurFor_Workingareafor2Y(
+                                    value={S_WA_2_Height_Z_Dir}
+                                    onChange={handleSelection("working_area_2_Height_Z_Direction")}
+                                    onBlur={(e) => callBlurFor_WorkingareaZfor2(
                                         e,
-                                        G_Pallet_Length,
-                                        G_WA_2_Length_Y_Dir,
-                                        set_WA_2_Length_Y_Dir,
-                                        setErrorWorkingaraeaLengthfor2,
-                                        setErrorHelperForWorkingareaLengthfor2,
-                                        updatePallet
+                                        updatePallet,
+                                        G_WA_2_Height_Z_Dir,
+                                        // G_Pallet_Length,
+                                        set_WA_2_Height_Z_Dir,
+                                        setErrorWorkingaraeaHeightfor2,
+                                        setErrorHelperForWorkingareaHeightfor2,
                                     )}
                                     onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault()}
                                     width="60"

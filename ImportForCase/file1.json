@@ -1,5 +1,4 @@
 [
-   
     {
         "name": "Case1",
         "width": 100,
@@ -20,8 +19,6 @@
         "createdBy": "PeterPan",
         "createdDatetime": "03-03-2023 15:31:21",
         "updatedBy": "PeterPan",
-        "updatedDatetime": "03-03-2023 15:31:21",
-        "line_rotation":"Vertical",
-        "line_position":"Topside" 
+        "updatedDatetime": "03-03-2023 15:31:21"
     }
 ]

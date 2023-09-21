@@ -2109,7 +2109,7 @@ class FormUserPage1 extends Component {
       height: this.globalScalez,
       // material: this.state.showcaseTexture,
       material: this.texture ? this.texture : "Texture1",
-      mass: this.state.mass,
+      mass: this.state.mass ? this.state.mass:0,
       // "labelcolour": this.previouColor,
       labelcolour: "#FFFFFF",
       directionx: this.globalRotationx,
@@ -6671,14 +6671,23 @@ class FormUserPage1 extends Component {
 
   addMUILabel = () => {
     let { t } = this.props;
+    let inputValue = this.state.labelname;
+    const allowedCharactersRegex = /^[a-zA-Z0-9#_\- ]*$/;
 
     if (this.state.labelname.trim() === "" || this.state.labelname.trim() === "Label0") {
       console.log("empty labelName 2");
       this.state.labelname = "Label0"
       toast.error(t('nameisinvalid'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
     }
-    
-    if (this.state.labelname.trim() !== "" && this.state.labelname.trim() !== "Label0" ) {
+
+    if (!allowedCharactersRegex.test(inputValue)) {
+      let { t } = this.props;
+      toast.error(t('EmojisAreNotAllowed'), { autoClose: 5000, position: toast.POSITION.TOP_CENTER });
+      this.state.labelname = "Label0"
+      return
+    }
+
+    if (this.state.labelname.trim() !== "" && this.state.labelname.trim() !== "Label0") {
       console.log("addMUILabel is called");
       this.globalName = this.state.labelname.trim();
       this.globalWidth = this.state.labelwidth;

@@ -96,7 +96,7 @@ const FrontCaseModal = (props) => {
     return (
         <>
 
-            <PerspectiveCamera position={[-((props.Case_Height + props.Case_Length + props.Case_Width)), ((props.Case_Height + props.Case_Length + props.Case_Width)), ((props.Case_Height + props.Case_Length + props.Case_Width))]} makeDefault />
+            <PerspectiveCamera position={[-((props.Case_Height + props.Case_Length + props.Case_Width)), ((props.Case_Height + props.Case_Length + props.Case_Width)), ((props.Case_Height + props.Case_Length + props.Case_Width))+0.3]} makeDefault />
             <OrbitControls enableZoom={true} maxPolarAngle={angleRadians(85)} minPolarAngle={angleRadians(20)} />
             <mesh rotation={[angleRadians(180), -angleRadians(180), -angleRadians(180)]}
                 position={[-(props.Case_Width / 2), -(props.Case_Height / 2), (props.Case_Length / 2)]} castShadow receiveShadow>
